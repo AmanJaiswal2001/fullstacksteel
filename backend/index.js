@@ -3,12 +3,15 @@
 
 // import mongoose from "mongoose";
 // import { DB_NAME } from "./contants";
+
+
 const dotenv = require('dotenv');
 const express = require('express');
+// const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const connectDB = require('./src/db/connectDB.js');
-
+const adminAuthRoutes=require('./src/routes/adminAuthRoutes.js');
 
 dotenv.config();
 connectDB();
@@ -18,9 +21,16 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-connectDB()
+// connectDB()
 
 
+
+
+
+
+
+app.use('/api/admin/auth',adminAuthRoutes);
+app.use('api/admin/auth',adminAuthRoutes);
 
 app.listen(process.env.PORT,()=>{
                 console.log(`App is listion on port ${process.env.PORT}`);

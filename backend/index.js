@@ -1,8 +1,3 @@
-// require('dotenv').config({path:'./env'})
-// const dotenv = require('dotenv');
-
-// import mongoose from "mongoose";
-// import { DB_NAME } from "./contants";
 
 
 const dotenv = require('dotenv');
@@ -13,6 +8,8 @@ const bodyParser = require('body-parser');
 const connectDB = require('./src/db/connectDB.js');
 const adminAuthRoutes=require('./src/routes/adminAuthRoutes.js');
 
+const productRoutes=require("./src/routes/productRoutes.js")
+const customRoutes=require("./src/routes/customRoutes.js")
 dotenv.config();
 connectDB();
 const app=express();
@@ -30,29 +27,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use('/api/admin/auth',adminAuthRoutes);
-app.use('api/admin/auth',adminAuthRoutes);
+// app.use('api/admin/auth',adminAuthRoutes);
+app.use('/api/admin/product',productRoutes);
+// app.use('/api/admin/product',productRoutes);
+
+app.use('/api/admin/product',customRoutes);
+
+
+
+
+
+
+
+
+
 
 app.listen(process.env.PORT,()=>{
                 console.log(`App is listion on port ${process.env.PORT}`);
             })
            
 
-
-// (async ()=>{r
-//     try{
-
-//         mongoose.connect(`${process.env.MONGO_URL}/${DB_NAME}`)
-//         app.on("error",(error)=>{
-//             throw error
-//         });
-
-//         app.listen(process.env.PORT,()=>{
-//             console.log(`App is listion on port ${process.env.PORT}`);
-//         })
-       
-//     }
-//     catch(error){
-//  console.log("Error",error)
-//  throw err
-//     }
-// })

@@ -10,6 +10,11 @@ const adminAuthRoutes=require('./src/routes/adminAuthRoutes.js');
 
 const productRoutes=require("./src/routes/productRoutes.js")
 const customRoutes=require("./src/routes/customRoutes.js")
+const uploadRoutes=require("./src/routes/uploadRoute.js")
+const contactRoutes=require("./src/routes/contactRoutes.js");
+const allowedOrigins = [
+    "http://localhost:5173",
+]
 dotenv.config();
 connectDB();
 const app=express();
@@ -32,6 +37,9 @@ app.use('/api/admin/product',productRoutes);
 // app.use('/api/admin/product',productRoutes);
 
 app.use('/api/admin/product',customRoutes);
+app.use("/api/admin/product", uploadRoutes);
+app.use("/uploads", express.static("uploads")); // Serve uploaded files
+app.use("/api",contactRoutes);
 
 
 

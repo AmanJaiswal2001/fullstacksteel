@@ -60,8 +60,62 @@ const addLength = async (req, res) => {
   }
 };
 
+
+const deleteThickness = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { thickness = [] } = req.body;
+
+    const product = await Product.findById(id);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const valuesToDelete = Array.isArray(thickness) ? thickness : [thickness];
+
+    const notFound = valuesToDelete.filter(val => !product.thickness.includes(val));
+    if (notFound.length > 0) {
+      return res.status(400).json({ message: `Thickness value(s) not found: ${notFound.join(", ")}` });
+    }
+
+    product.thickness = product.thickness.filter(val => !valuesToDelete.includes(val));
+    await product.save();
+
+    res.status(200).json({ message: "Thickness deleted", deleted: valuesToDelete, product });
+  } catch (err) {
+    console.error("Delete thickness error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
+const deleteWidth = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { width = [] } = req.body;
+
+    const product = await Product.findById(id);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const valuesToDelete = Array.isArray(width) ? width : [width];
+
+    const notFound = valuesToDelete.filter(val => !product.width.includes(val));
+    if (notFound.length > 0) {
+      return res.status(400).json({ message: `Width value(s) not found: ${notFound.join(", ")}` });
+    }
+
+    product.width = product.width.filter(val => !valuesToDelete.includes(val));
+    await product.save();
+
+    res.status(200).json({ message: "Width deleted", deleted: valuesToDelete, product });
+  } catch (err) {
+    console.error("Delete width error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
 module.exports = {
   addThickness,
   addWidth,
   addLength,
+  deleteThickness,deleteWidth
 };

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Send, ChevronDown } from 'lucide-react';
-
+import axios from 'axios';
 const  ContactForm=()=> {
 
   const [isHovered, setIsHovered] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    website: '',
+    // website: '',
     phone: '',
     address: '',
     email: '',
@@ -22,11 +22,32 @@ const  ContactForm=()=> {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+   
+   try{
+const res=await axios.post('http://localhost:8000/api/contact', formData);
+
+
+    console.log('Form submitted:', res.data);
+    alert("Message sent successfully!");
+    setFormData({
+      name: '',
+      phone: '',
+      address: '',
+      email: '',
+      inquiryType: '',
+      message: ''
+    });
+   }
+
+   catch (error) {
+    console.error('Error:', error.response?.data || error.message);
+    alert("Failed to send message.");
+  
     // Here you would typically send the data to your backend
   };
+}
 
   return (
     <div className="flex md:flex-row flex-col bg-white rounded-lg lg:w-[80%] mt-20 mb-20 m-auto h-full shadow-md overflow-hidden">

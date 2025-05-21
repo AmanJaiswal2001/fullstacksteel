@@ -2,11 +2,12 @@
 import { useParams } from "react-router-dom";
 import cardData from "./data/hotrollcoils"; // move cardData to separate file if needed
 import { ThicknessGrid,WidthGrid } from "./HelperComponent";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import hotrolledproductdata from "./data/hotrollcoildata"
 import { Hotrolledinfo } from "./Hotrolledinfo";
 import { Hotrollcoilinfo } from "./Hotrollcoilinfo";
+import useFetchProducts from "../hooks/useFetchProducts";
 const HotCatCoilsDEl = () => {
 
 const [selectedThickness,setSelectedThickness]=useState(null);
@@ -15,21 +16,41 @@ const [selectedWidth,setSelectedWidth]=useState(null);
 //  const[customLength,setcustomLength]=useState(null);
 const[customNumber,setcustomNumber]=useState(null);
 const [isMobileOpen, setIsMobileOpen] = useState(false);
+const { id } = useParams();
 
-    const thicknessValues = [
-        "1.6", "1.8", "2.",  "2.5",  "3.0",
-        "4.0",  "5.0", "5.8", "6.0",
-        "7.8", "8.0",  "10.0",
-        "12.0", 
-        "16.0", "20.0"
-      ];
-      const widthValues=["1250","1500","2000"]
+const { products, loading, error } = useFetchProducts();
+
+
+
+
+    // const thicknessValues = [
+    //     "1.6", "1.8", "2.",  "2.5",  "3.0",
+    //     "4.0",  "5.0", "5.8", "6.0",
+    //     "7.8", "8.0",  "10.0",
+    //     "12.0", 
+    //     "16.0", "20.0"
+    //   ];
+    //   const widthValues=["1250","1500","2000"]
+
+      if (loading) return <div className="text-center text-3xl font-bold font-poppins pt-20">Loading...</div>;
+      if (error) return <div className="text-center text-3xl font-bold font-poppins pt-20 text-red-600">Error loading products</div>;
+      if (!products || products.length === 0) return <div className="text-center text-3xl font-bold font-poppins pt-20">No products found</div>;
+    
+      const product = products.find(p => p._id === id);
+      if (!product) return <div className="text-center text-3xl font-bold font-poppins pt-20">Product not found</div>;
+    
+      // Extract unique thickness values sorted ascending
+    
+    
+      // Extract unique width values based on selectedThickness (if selected, else from all products)
+    
     //   const lengthValues=["2500","3000","6300"]
-  const { id } = useParams();
-  const product = cardData[id];
+
+  
+  // const product = cardData[id];
   // const productDetail=hotrolledproductdata[""];
 
-  if (!product) return <div className="font-poppins text-3xl font-bold text-center">Product not found</div>;
+  // if (!products) return <div className="font-poppins text-3xl font-bold text-center">Product not found</div>;
 
   return (
     <div className=" w-full px-5  mb-20 lg:px-20 z-10 pt-24  ">
@@ -40,18 +61,18 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
         {/* img */}
         <img 
         className=" h-full object-cover rounded-lg" 
-        src={product.image} alt={product.title} />
+        src={`http://localhost:8000${product?.image}`} alt={product?.title} />
    
 
       </div>
       <div className="lg:w-4/3 pt-4 lg:pt-0 flex flex-col gap-2">
 {/* detail */}
 
-<h1 className="text-xl font-extrabold  sm:w-[420px] w-80 lg:w-full text-[#262626] font-poppins mb-2">{product.title}</h1>
-<div className="flex gap-2">
-<span className="text-sm font-normal font-poppins text-[#262626]">Brand:</span> <span className="font-semibold text-sm font-poppins text-[#262626] ">{product.brand}</span>
+<h1 className="text-xl font-extrabold  sm:w-[420px] w-80 lg:w-full text-[#262626] font-poppins mb-2">{product.name}</h1>
+{/* <div className="flex gap-2">
+<span className="text-sm font-normal font-poppins text-[#262626]">Brand:</span> <span className="font-semibold text-sm font-poppins text-[#262626] ">{products.brand}</span>
 
-</div>
+</div> */}
          <div className="flex w-[100%] sm:w-full  justify-between pb-2 border-b-2 border-gray-200">
           <h3 className="font-semibold text-[#262626] font-poppins text-[1rem]">Select attributes</h3>
          <div className="flex   "
@@ -70,7 +91,7 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
          </div>
      <div>
      
-     <ThicknessGrid title="Thickness" values={thicknessValues}
+     <ThicknessGrid title="Thickness" values={product.thickness}
         selected={selectedThickness}
         onSelect={(value)=>{
           setSelectedThickness(value);
@@ -81,7 +102,7 @@ setSelectedWidth(null)
        </div>
       
 
-<WidthGrid title="Width" values={widthValues}
+<WidthGrid title="Width" values={product.width}
   disable={!selectedThickness} showMessage={!selectedWidth} selected={selectedWidth} onSelect={(value)=>{setSelectedWidth(value);}}
 />
 {/* <LengthGrid title="Length" values={lengthValues}
@@ -157,7 +178,7 @@ onClick={()=>{
       {
         window.open(
           `https://wa.me/918062960347?text=${encodeURIComponent(
-            `Product: ${product.title}\nBrand: ${product.brand}\nThickness: ${selectedThickness} mm\nWidth: ${selectedWidth} mm \nQuantity: ${customNumber} sheets`
+            `Product: ${product.name}\nThickness: ${selectedThickness} mm\nWidth: ${selectedWidth} mm \nQuantity: ${customNumber} sheets`
           )}`,
           "_blank"
         );

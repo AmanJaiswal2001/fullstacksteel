@@ -3,72 +3,77 @@ import Card from './Card';
 import Button from './Button';
 import { Link, useNavigate } from 'react-router-dom';
 
-const cardData = [
-    {
-      title: "SONATEK Hot Rolled Coils IS 2062:2011 E250A",
-      brand: "SONATEK",
-      thickness: "1.6-25mm",
-      width: "900-2000mm",
-      buttonName: "Purchase now",
-      delivery: "Delivery in 2-5 days",
-      image: "/Hotrolledcoil.webp",
-    },
-    {
-      title: "SONATEK Hot Rolled Sheets 2062:2011 E250A",
-      brand: " SONATEK",
-      thickness: "0.5-3mm",
-      width: "600-1500mm",
-      buttonName: "Purchase now",
-      delivery: "Delivery in 3-7 days",
-      image: "/hrc1.webp",
-    },
-    {
-      title: "SONATEK Steel Plates 2062:2011 E250A",
-      brand: " SONATEK",
-      thickness: "2-40mm",
-      width: "1200-2500mm",
-      buttonName: "Purchase now",
-      delivery: "Delivery in 4-6 days",
-      image: "/Hotrolledcoil.webp",
-    },
-     {
-      title: "SONATEK Hot Rolled Sheets 2062:2011 E250A",
-      brand: " SONATEK",
-      thickness: "1.2-16mm",
-      width: "800-2200mm",
-      buttonName: "Purchase now",
-      delivery: "Delivery in 5-8 days",
-      image: "/hrc2.webp",
-     },
-     {
-      title: "SONATEK Galvanized Coils",
-      brand: " SONATEK",
-      thickness: "0.4-2mm",
-      width: "700-1800mm",
-      buttonName: "Purchase now",
-      delivery: "Delivery in 2-4 days",
-      image: "/Hotrolledcoil.webp",
-     },
-  ];
+// const cardData = [
+//     {
+//       title: "SONATEK Hot Rolled Coils IS 2062:2011 E250A",
+//       brand: "SONATEK",
+//       thickness: "1.6-25mm",
+//       width: "900-2000mm",
+//       buttonName: "Purchase now",
+//       delivery: "Delivery in 2-5 days",
+//       image: "/Hotrolledcoil.webp",
+//     },
+//     {
+//       title: "SONATEK Hot Rolled Sheets 2062:2011 E250A",
+//       brand: " SONATEK",
+//       thickness: "0.5-3mm",
+//       width: "600-1500mm",
+//       buttonName: "Purchase now",
+//       delivery: "Delivery in 3-7 days",
+//       image: "/hrc1.webp",
+//     },
+//     {
+//       title: "SONATEK Steel Plates 2062:2011 E250A",
+//       brand: " SONATEK",
+//       thickness: "2-40mm",
+//       width: "1200-2500mm",
+//       buttonName: "Purchase now",
+//       delivery: "Delivery in 4-6 days",
+//       image: "/Hotrolledcoil.webp",
+//     },
+//      {
+//       title: "SONATEK Hot Rolled Sheets 2062:2011 E250A",
+//       brand: " SONATEK",
+//       thickness: "1.2-16mm",
+//       width: "800-2200mm",
+//       buttonName: "Purchase now",
+//       delivery: "Delivery in 5-8 days",
+//       image: "/hrc2.webp",
+//      },
+//      {
+//       title: "SONATEK Galvanized Coils",
+//       brand: " SONATEK",
+//       thickness: "0.4-2mm",
+//       width: "700-1800mm",
+//       buttonName: "Purchase now",
+//       delivery: "Delivery in 2-4 days",
+//       image: "/Hotrolledcoil.webp",
+//      },
+//   ];
   
 
-const CardContainer = ({type}) => {
+const CardContainer = ({data = [],type}) => {
     
   const [slideDirection, setSlideDirection] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
     const visibleCards = 3; 
   
     const navigate = useNavigate();
-    const filteredCards = cardData.filter((card) => {
-        if (type === "hot") {
-          return card.title.toLowerCase().includes("hot");
-        } else if (type === "cold") {
-          return card.title.toLowerCase().includes("cold");
-        }
-        return true; // fallback for all
-      });
+    // const filteredCards = cardData.filter((card) => {
+    //     if (type === "hot") {
+    //       return card.title.toLowerCase().includes("hot");
+    //     } else if (type === "cold") {
+    //       return card.title.toLowerCase().includes("cold");
+    //     }
+    //     return true; // fallback for all
+    //   });
     
       // Reset index when type changes
+    
+    const filteredCards=data.filter((card)=>{
+return card.type?.toLowerCase().includes(type);
+    })
+    
       useEffect(() => {
         setCurrentIndex(0);
       }, [type]);
@@ -91,9 +96,9 @@ const CardContainer = ({type}) => {
         <div className="  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 transition-transform duration-200 ease-in-out ">
        
         {filteredCards.slice(currentIndex, currentIndex + visibleCards).map((card, index) => (
-            <Link key={index} to={`/coilproduct/${index}`}
+            <Link key={card._id || indexindex} to={`/coilproduct/${card._id || index}`}
              className='w-full flex justify-center gap-0 '>
-            <Card key={index} {...card} direction={slideDirection} />
+            <Card  {...card} direction={slideDirection} />
             </Link>
           ))}
          </div>

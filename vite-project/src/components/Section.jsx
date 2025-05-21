@@ -1,18 +1,56 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import CardContainer from './CardContainer';
 import ColdContainer from './ColdContainer';
 import SheetCard from './SheetCard';
 import ColdSheetCard from './ColdSheetCard';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import useFetchProducts from '../hooks/useFetchProducts';
 
 const Section = () => {
   const [activeType, setActiveType] = useState("hot");
   const [activeProduct, setActiveProduct] = useState('coil');
+  // const [product,setProduct]=useState([]);
   const navigate = useNavigate();
 
   // Get admin status
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
+
+
+  const { products, loading, error } = useFetchProducts();
+
+   const filterProducts=products.filter((product)=>{
+    if(activeProduct==='coil'&&activeType==='hot')return product.type==='hotrolledcoil';
+    if(activeProduct==='coil'&& activeType==='cold')return product.type ==='coldrolledcoil';
+    if(activeProduct==='sheet'&& activeType==='hot') return product.type ==='hotrolledsheet';
+    if(activeProduct==='sheet'&& activeType==='cold') return product.type==='coldrolledsheet';
+   })
+
+
+   if (loading) {
+    return <div className="text-center mt-20 text-lg">Loading products...</div>;
+  }
+
+// fetch the data
+
+// const fetchProducts=async()=>{
+
+//   try{
+// const res=await axios.get('http://localhost:8000/api/admin/product/getAllProduct');
+// console.log(res.data);
+// setProduct(res.data.product);
+//   }
+//   catch(err){
+//     console.error("Failed to fetch products:", err);
+
+//   }
+// }
+
+// useEffect(()=>{
+//   fetchProducts();
+// },[])
+
 
   return (
     <div className='relative h-auto w-full mt-24 mb-20'>
@@ -42,14 +80,14 @@ const Section = () => {
 
             {/* Product Type Toggle */}
             <button className={`font-semibold hidden lg:block pt-1 font-poppins text-xl ${activeProduct === 'coil' ? 'border-b-2 border-black text-black font-bold' : 'text-gray-600'}`} onClick={() => setActiveProduct('coil')}>Coils</button>
-            <button className={`font-semibold hidden lg:block font-poppins text-xl ${activeProduct === 'sheet' ? 'border-b-2 border-black text-black font-bold' : 'text-gray-600'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button>
+            {/* <button className={`font-semibold hidden lg:block font-poppins text-xl ${activeProduct === 'sheet' ? 'border-b-2 border-black text-black font-bold' : 'text-gray-600'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button> */}
           </div>
 
           <div className='w-full border-t border-t-gray-300'>
             {/* Mobile Product Buttons */}
             <div className='flex sm:gap-10 px-5 gap-5 mt-5 lg:hidden sm:mx-10 lg:mx-0'>
               <button className={`font-normal cursor-pointer text-sm sm:w-20 w-16 p-2 font-poppins rounded-sm ${activeProduct === 'coil' ? 'border border-[#a0ceff] bg-[#e6f0ff] text-[#12396d]' : 'text-[rgb(38,38,38)] border border-[#b1b8c9]'}`} onClick={() => setActiveProduct('coil')}>Coils</button>
-              <button className={`font-normal cursor-pointer text-sm sm:w-20 w-16 p-2 font-poppins rounded-sm ${activeProduct === 'sheet' ? 'border border-[#a0ceff] bg-[#e6f0ff] text-[#12396d]' : 'text-[rgb(38,38,38)] border border-[#b1b8c9]'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button>
+              {/* <button className={`font-normal cursor-pointer text-sm sm:w-20 w-16 p-2 font-poppins rounded-sm ${activeProduct === 'sheet' ? 'border border-[#a0ceff] bg-[#e6f0ff] text-[#12396d]' : 'text-[rgb(38,38,38)] border border-[#b1b8c9]'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button> */}
             </div>
 
             {/* ✅ Add Product button only for admin */}
@@ -66,8 +104,9 @@ const Section = () => {
 
             {/* Cards */}
             {activeProduct === 'coil'
-              ? activeType === 'hot' ? <CardContainer /> : <ColdContainer />
-              : activeType === 'hot' ? <SheetCard /> : <ColdSheetCard />}
+              ? activeType === 'hot' ? <CardContainer  data={filterProducts} type={activeType} /> : <ColdContainer data={filterProducts} type={activeType} />
+              :
+                 activeType === 'hot' ? <SheetCard data={filterProducts} type={activeType} /> : <ColdSheetCard  data={filterProducts} type={activeType} />}
           </div>
         </div>
       </div>

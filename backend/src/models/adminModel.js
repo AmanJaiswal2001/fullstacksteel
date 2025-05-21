@@ -27,9 +27,14 @@ validate:{
         return /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value); // Ensuring password has at least 1 uppercase, 1 lowercase, and 1 number
             },
             message: 'Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number!'
-        } 
-  
+        } ,
+       
+  },
+  isAdmin: {
+    type: Boolean,
+    default: true, // since this schema is only for admin, we default it to true
   }
+
 
 
 

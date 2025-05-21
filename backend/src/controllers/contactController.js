@@ -31,7 +31,7 @@ const transporter = nodemailer.createTransport({
   });
 
   const mailOptions = {
-    from: '"Sonatek Contact Form" <${process.env.GMAIL_USER}>',  // sender email
+    from: `Sonatek Contact Form <${process.env.GMAIL_USER}>`,  // sender email
     to: process.env.GMAIL_USER,                             // admin email receiving form details
     replyTo: email,                                             // user email for reply
     subject: 'New Contact Form Submission',

@@ -1,5 +1,8 @@
 import { createBrowserRouter, RouterProvider, Outlet, useLocation } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
+import AdminLogin from "./components/Admin/AdminLogin";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import AddProduct from "./components/Admin/AddProduct";
 
 const Nav = lazy(() => import('./components/Nav'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -81,6 +84,9 @@ const appRouter = createBrowserRouter([
 
 { path: "smooth", element: <Blog2 /> },
 { path: "basic", element: <Blog3 /> },
+{ path: "/adminlogin", element: <AdminLogin /> },
+{path:"/admindashboard",element:<AdminDashboard/>},
+{path:"//addproduct",element:<AddProduct/>}
       
     ],
   },

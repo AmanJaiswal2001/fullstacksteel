@@ -6,7 +6,7 @@ const Product = () => {
   return (
     <div>
         <Section/>
-        <Strainless/>
+        {/* <Strainless/> */}
     </div>
   )
 }

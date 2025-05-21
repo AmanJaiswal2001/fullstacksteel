@@ -24,10 +24,19 @@ const registerAdmin = async (req, res) => {
       userName,
       email,
       password:hashedPassword,
+      isAdmin: true,
     });
 
-    res.status(201).json({ message: "Admin registered successfully", data: admin });
-  } catch (err) {
+    res.status(201).json({
+      message: "Admin registered successfully",
+      data: {
+        _id: admin._id,
+        FullName: admin.FullName,
+        userName: admin.userName,
+        email: admin.email,
+        isAdmin: admin.isAdmin,
+      },
+    }); } catch (err) {
     res.status(500).json({ message: "Error creating admin", error: err.message });
   }
 };
@@ -51,8 +60,16 @@ const isMatch = await bcrypt.compare(password, user.password);
 if (!isMatch) {
   return res.status(401).json({ message: "Invalid email or password" });
 }
-res.status(200).json({message:"Login successfully",data:user});
-
+res.status(200).json({
+  message: "Login successfully",
+  data: {
+    _id: user._id,
+    FullName: user.FullName,
+    userName: user.userName,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  },
+});
 }
   
   catch(err){

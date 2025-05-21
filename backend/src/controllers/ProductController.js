@@ -18,7 +18,7 @@ const createProduct = async (req, res) => {
       return res.status(400).json({ message: "Please provide required fields" });
     }
 
-    const existing = await Product.findOne({ name, type });
+    const existing = await Product.findOne({ name });
     if (existing) {
       return res.status(400).json({ message: "Product with same name and type already exists" });
     }

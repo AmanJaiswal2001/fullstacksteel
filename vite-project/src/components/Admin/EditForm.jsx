@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 const EditForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const EditForm = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/api/admin/product/getProduct/${id}`);
+        const res = await axios.get(`${BASE_URL}/api/admin/product/getProduct/${id}`);
        console.log(res.data);
         const data = res?.data?.product;
 
@@ -78,7 +78,7 @@ const EditForm = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:8000/api/admin/product/updateProduct/${id}`,
+        `${BASE_URL}/api/admin/product/updateProduct/${id}`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },

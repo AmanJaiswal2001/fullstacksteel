@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
+const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -46,7 +47,7 @@ const AddProduct = () => {
     if (imageFile) data.append("file", imageFile); // 👈 file key must match multer field name
 
     try {
-      const res = await axios.post("http://localhost:8000/api/admin/product/createProduct", data, {
+      const res = await axios.post(`${BASE_URL}/api/admin/product/createProduct`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

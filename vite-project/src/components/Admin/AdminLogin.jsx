@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 const AdminLogin = () => {
 
     const navigate=useNavigate();
@@ -17,7 +17,7 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:8000/api/admin/auth/adminLogin', formData);
+      const res = await axios.post(`${BASE_URL}/api/admin/auth/adminLogin`, formData);
       console.log('Login data:', res.data);
   
       // Store admin flag in localStorage

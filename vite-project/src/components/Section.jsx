@@ -57,7 +57,7 @@ const Section = () => {
       <h1 className='font-bold md:text-3xl sm:text-2xl text-xl text-[#262626] leading-6 font-poppins w-96 md:px-10 sm:px-10 px-5'>Mild Steel</h1>
 
       <div className='flex gap-10 md:w-[80%] w-full md:mt-5 mt-0 rounded-lg md:mx-10'>
-        <div className='w-2/6 hidden lg:block'>
+        <div className='w-2/6 h-screen hidden lg:block'>
           <Sidebar
             activeType={activeType}
             setActiveType={setActiveType}
@@ -103,11 +103,18 @@ const Section = () => {
             )}
 
             {/* Cards */}
-            {activeProduct === 'coil'
-              ? activeType === 'hot' ? <CardContainer  data={filterProducts} type={activeType} /> : <ColdContainer data={filterProducts} type={activeType} />
-              :
-                 activeType === 'hot' ? <SheetCard data={filterProducts} type={activeType} /> : <ColdSheetCard  data={filterProducts} type={activeType} />}
-          </div>
+            {filterProducts.length === 0 ? (
+  <div className="text-center text-gray-600 py-10 text-lg">No products found.</div>
+) : (
+  activeProduct === 'coil'
+    ? activeType === 'hot'
+      ? <CardContainer data={filterProducts} type={activeType} />
+      : <ColdContainer data={filterProducts} type={activeType} />
+    : activeType === 'hot'
+      ? <SheetCard data={filterProducts} type={activeType} />
+      : <ColdSheetCard data={filterProducts} type={activeType} />
+)}
+  </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 // ProductDetail.jsx
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {cardData} from "./data/ColdRollCoils"; // move cardData to separate file if needed
 import { LengthGrid, ThicknessGrid,WidthGrid } from "./HelperComponent";
 import { useState } from "react";
@@ -7,6 +7,8 @@ import { FaSquareWhatsapp } from "react-icons/fa6";
 import hotrolledproductdata from "./data/hotrolledproductdata"
 import { Hotrolledinfo } from "./Hotrolledinfo";
 import useFetchProducts from "../hooks/useFetchProducts";
+import DeleteButton from "./Admin/DeleteButton";
+import axios from "axios";
 const ColdCoilsdel = () => {
 
 const [selectedThickness,setSelectedThickness]=useState(null);
@@ -16,15 +18,10 @@ const [selectedWidth,setSelectedWidth]=useState(null);
 const[customNumber,setcustomNumber]=useState(null);
 const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-    // const thicknessValues = [
-    //     "1.6", "1.8", "2.0", "2.2", "2.5", "2.8", "3.0",
-    //     "3.2", "3.5", "4.0", "4.5", "5.0", "5.5", "6.0",
-    //     "6.5", "7.0", "7.5", "8.0", "9.0", "10.0",
-    //     "11.0", "12.0", "13.0", "14.0", "15.0",
-    //     "16.0", "18.0", "20.0", "22.0", "25.0", "30.0"
-    //   ];
-    //   const widthValues=["900","1250","1500","2000"]
-      // const lengthValues=["2500","3000","6300"]
+
+const navigate=useNavigate();
+const isAdmin = localStorage.getItem('isAdmin') === 'true';
+   
   const { id } = useParams();
 
   const { products, loading, error } = useFetchProducts();
@@ -37,6 +34,17 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const product = products.find(p => p._id === id);
   if (!product) return <div className="text-center text-3xl font-bold font-poppins pt-20">Product not found</div>;
+
+
+const handleDelete=async()=>{
+  try{
+await axios.delete(`http://localhost:8000/api/admin/product/deleteProduct/${id}`);
+navigate('/mildStainless')
+}
+catch (err) {
+  console.error("Failed to delete", err);
+}
+}
 
   return (
     <div className=" w-full px-5 mb-20 lg:px-20 z-10 pt-24 ">
@@ -53,8 +61,31 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
       </div>
       <div className="lg:w-4/3 pt-4 lg:pt-0 flex flex-col gap-2">
 {/* detail */}
-
+<div className="flex justify-between  items-center">
 <h1 className="text-xl font-extrabold  sm:w-[420px] w-80 lg:w-full text-[#262626] font-poppins mb-2">{product?.name}</h1>
+
+
+{isAdmin&&(
+        <div className='flex gap-2 '>
+         <button  onClick={()=> navigate(`/editproduct/${id}`)} className='cursor-pointer bg-[#12396d] text-white p-2 rounded-full'>
+         <svg  
+          
+          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z"/></svg>
+         
+         </button>
+         <DeleteButton 
+          onConfirm={handleDelete} 
+
+         />
+
+         {/* <button className="cursor-pointer bg-red-700 text-white p-2 rounded-full">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z"/></svg>
+      
+         </button> */}
+          </div>
+       )}   
+
+       </div>
 {/* <div className="flex gap-2">
 <span className="text-sm font-normal font-poppins text-[#262626]">Brand:</span> <span className="font-semibold text-sm font-poppins text-[#262626] ">{product.brand}</span>
 
@@ -62,6 +93,8 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
 
          <div className="flex w-[100%] sm:w-full  justify-between pb-2 border-b-2 border-gray-200">
           <h3 className="font-semibold text-[#262626] font-poppins text-[1rem]">Select attributes</h3>
+        
+        
          <div className="flex   "
          onClick={()=>{
           // setSelectedLength(null);
@@ -74,6 +107,7 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
          >
          <svg className="text-[#2241a6]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 14q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m0 7q-3.475 0-6.025-2.287T3.05 13H5.1q.35 2.6 2.313 4.3T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H9v2H3V4h2v2.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21"/></svg>
          <h3 className="font-semibold  text-[1rem] text-[#2241a6] cursor-pointer font-poppins">Reset Selection</h3>
+        
          </div>
          </div>
      <div className="">

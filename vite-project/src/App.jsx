@@ -3,6 +3,7 @@ import { Suspense, lazy, useEffect } from "react";
 import AdminLogin from "./components/Admin/AdminLogin";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AddProduct from "./components/Admin/AddProduct";
+import EditForm from "./components/Admin/EditForm";
 
 const Nav = lazy(() => import('./components/Nav'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -86,7 +87,8 @@ const appRouter = createBrowserRouter([
 { path: "basic", element: <Blog3 /> },
 { path: "/adminlogin", element: <AdminLogin /> },
 {path:"/admindashboard",element:<AdminDashboard/>},
-{path:"//addproduct",element:<AddProduct/>}
+{path:"/addproduct",element:<AddProduct/>},
+{path:"/editproduct/:id",element:<EditForm/>}
       
     ],
   },

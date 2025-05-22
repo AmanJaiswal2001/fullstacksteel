@@ -1,5 +1,5 @@
 // ProductDetail.jsx
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import cardData from "./data/hotrollcoils"; // move cardData to separate file if needed
 import { ThicknessGrid,WidthGrid } from "./HelperComponent";
 import { useMemo, useState } from "react";
@@ -8,6 +8,8 @@ import hotrolledproductdata from "./data/hotrollcoildata"
 import { Hotrolledinfo } from "./Hotrolledinfo";
 import { Hotrollcoilinfo } from "./Hotrollcoilinfo";
 import useFetchProducts from "../hooks/useFetchProducts";
+import DeleteButton from "./Admin/DeleteButton";
+import axios from "axios";
 const HotCatCoilsDEl = () => {
 
 const [selectedThickness,setSelectedThickness]=useState(null);
@@ -17,6 +19,10 @@ const [selectedWidth,setSelectedWidth]=useState(null);
 const[customNumber,setcustomNumber]=useState(null);
 const [isMobileOpen, setIsMobileOpen] = useState(false);
 const { id } = useParams();
+
+const navigate=useNavigate();
+const isAdmin = localStorage.getItem('isAdmin') === 'true';
+   
 
 const { products, loading, error } = useFetchProducts();
 
@@ -52,6 +58,17 @@ const { products, loading, error } = useFetchProducts();
 
   // if (!products) return <div className="font-poppins text-3xl font-bold text-center">Product not found</div>;
 
+
+  
+const handleDelete=async()=>{
+  try{
+await axios.delete(`http://localhost:8000/api/admin/product/deleteProduct/${id}`);
+navigate('/mildStainless')
+}
+catch (err) {
+  console.error("Failed to delete", err);
+}
+}
   return (
     <div className=" w-full px-5  mb-20 lg:px-20 z-10 pt-24  ">
      
@@ -67,8 +84,28 @@ const { products, loading, error } = useFetchProducts();
       </div>
       <div className="lg:w-4/3 pt-4 lg:pt-0 flex flex-col gap-2">
 {/* detail */}
-
+<div className="flex justify-between  items-center">
 <h1 className="text-xl font-extrabold  sm:w-[420px] w-80 lg:w-full text-[#262626] font-poppins mb-2">{product.name}</h1>
+
+{isAdmin&&(
+        <div className='flex gap-2 '>
+         <button  onClick={()=> navigate(`/editproduct/${id}`)} className='cursor-pointer bg-[#12396d] text-white p-2 rounded-full'>
+         <svg  
+          
+          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z"/></svg>
+         
+         </button>
+
+         <DeleteButton 
+          onConfirm={handleDelete} 
+
+         />
+          </div>
+       )}  
+</div>
+
+
+
 {/* <div className="flex gap-2">
 <span className="text-sm font-normal font-poppins text-[#262626]">Brand:</span> <span className="font-semibold text-sm font-poppins text-[#262626] ">{products.brand}</span>
 

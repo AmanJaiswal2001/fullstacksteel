@@ -1,6 +1,6 @@
 
 const express=require('express');
-const { createProduct, getAllProduct, updateProduct, deleteProduct } = require('../controllers/ProductController');
+const { createProduct, getAllProduct, updateProduct, deleteProduct, getProductById } = require('../controllers/ProductController');
 const upload = require('../Middleware/upload');
 
 const router=express.Router();
@@ -8,7 +8,8 @@ const router=express.Router();
 
 router.post('/createProduct',upload.single('file'),createProduct);
 router.get('/getAllProduct',getAllProduct);
-router.put('/updateProduct/:id',updateProduct);
+router.get('/getProduct/:id',getProductById);
+router.put('/updateProduct/:id', upload.single("file"),updateProduct);
 router.delete('/deleteProduct/:id',deleteProduct);
 
 

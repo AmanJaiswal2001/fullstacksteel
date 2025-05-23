@@ -3,10 +3,11 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { cardData} from './data/ColdRollCoils';
 import Card from './Card';
+import useFetchProducts from '../hooks/useFetchProducts';
 const  ColdCoilCat = ({filters}) => {
   
 
-
+  const {products,loading,error}=useFetchProducts();
 
   const parseRange = (rangeStr) => {
     const [min, max] = rangeStr.split('-').map(parseFloat);
@@ -15,20 +16,24 @@ const  ColdCoilCat = ({filters}) => {
 
   const isWithinRange = (cardRange, selectedMin, selectedMax) => {
     if (!selectedMin && !selectedMax) return true;
-    const { min, max } = parseRange(cardRange);
-    if (selectedMin && max < parseFloat(selectedMin)) return false;
-    if (selectedMax && min > parseFloat(selectedMax)) return false;
+    // const { min, max } = parseRange(cardRange);
+    // if (selectedMin && max < parseFloat(selectedMin)) return false;
+    // if (selectedMax && min > parseFloat(selectedMax)) return false;
     return true;
   };
 
-
+  const coilProducts = products.filter((p) => {
+    // console.log("Checking product:", p);
+    return   p.type.toLowerCase().includes("coil") && // matches 'hotrolledcoil', 'coldcoil', etc.
+    p.name.toLowerCase().includes("cold")
+  });
   
-  const filteredData = cardData.filter((card) => {
+  const filteredData = coilProducts.filter((card) => {
     // Grade filter
     const gradeFilters = filters.Grade || [];
     if (gradeFilters.length > 0 &&
       !gradeFilters.some(grade => 
-        card.title.includes(grade) || card.thickness.includes(grade))
+        card.name.includes(grade) || card.thickness.includes(grade))
     ) {
       return false;
     }
@@ -117,7 +122,7 @@ const  ColdCoilCat = ({filters}) => {
 
 
  {filteredData.map((card,index)=>(
-    <Link key={index} to={`/coldproductcoil/${index}`}>
+    <Link key={index} to={`/coldproductcoil/${card._id || index}`}>
     <Card {...card} />
   </Link> ))}
 

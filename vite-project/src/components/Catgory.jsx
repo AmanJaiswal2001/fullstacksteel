@@ -7,7 +7,7 @@ const Catgory = () => {
     Width: null,
     Length: null });
   return (
-    <div className='  h-full mt-24 flex w-full px-0  xl:gap-10  gap-5 lg:px-16 lg:gap-8 md:px-10 md:gap-8 xl:px-10' >
+    <div className='  h-full mt-24 mb-20 flex w-full px-0  xl:gap-10  gap-5 lg:px-16 lg:gap-8 md:px-10 md:gap-8 xl:px-10' >
     {/* filter */}
    
     <div className='w-96 hidden   lg:block xl:block   '>

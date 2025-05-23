@@ -2,11 +2,12 @@ import React from 'react'
 import CardSheet from './CardSheet';
 import { Link } from 'react-router-dom';
 import cardData from './data/hotrolledcarddarta';
+import useFetchProducts from '../hooks/useFetchProducts';
 const HotRolledCatgory = ({filters}) => {
   
 
 
-
+  const {products,loading,error}=useFetchProducts();
   const parseRange = (rangeStr) => {
     const [min, max] = rangeStr.split('-').map(parseFloat);
     return { min, max };
@@ -14,20 +15,24 @@ const HotRolledCatgory = ({filters}) => {
 
   const isWithinRange = (cardRange, selectedMin, selectedMax) => {
     if (!selectedMin && !selectedMax) return true;
-    const { min, max } = parseRange(cardRange);
-    if (selectedMin && max < parseFloat(selectedMin)) return false;
-    if (selectedMax && min > parseFloat(selectedMax)) return false;
+    // const { min, max } = parseRange(cardRange);
+    // if (selectedMin && max < parseFloat(selectedMin)) return false;
+    // if (selectedMax && min > parseFloat(selectedMax)) return false;
     return true;
   };
 
-
+  const coilProducts = products.filter((p) => {
+    console.log("Checking product:", p);
+    return   p.type.toLowerCase().includes("sheet") && // matches 'hotrolledcoil', 'coldcoil', etc.
+    p.name.toLowerCase().includes("hot")
+  });
   
-  const filteredData = cardData.filter((card) => {
+  const filteredData = coilProducts.filter((card) => {
     // Grade filter
     const gradeFilters = filters.Grade || [];
     if (gradeFilters.length > 0 &&
       !gradeFilters.some(grade => 
-        card.title.includes(grade) || card.thickness.includes(grade))
+        card.name.includes(grade) || card.thickness.includes(grade))
     ) {
       return false;
     }
@@ -100,7 +105,7 @@ const HotRolledCatgory = ({filters}) => {
 
     {/* Then Length */}
     {(filters.Length?.min || filters.Length?.max) && (
-      <span className="font-medium font-poppins text-[#12396d] text-sm">
+      <span className="font-medium font-poppins text-[#12396d]  text-sm">
         {"  Length: "}
         {filters.Length.min && `${filters.Length.min}mm`}
         {filters.Length.min && filters.Length.max && " - "}
@@ -117,7 +122,7 @@ const HotRolledCatgory = ({filters}) => {
 
 
  {filteredData.map((card,index)=>(
-    <Link key={index} to={`/product/${index}`}>
+    <Link key={index} to={`/product/${card._id||index}`}>
     <CardSheet {...card} />
   </Link> ))}
 

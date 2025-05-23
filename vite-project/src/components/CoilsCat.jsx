@@ -16,21 +16,24 @@ const {products,loading,error}=useFetchProducts();
 
   const isWithinRange = (cardRange, selectedMin, selectedMax) => {
     if (!selectedMin && !selectedMax) return true;
-    const { min, max } = parseRange(cardRange);
-    if (selectedMin && max < parseFloat(selectedMin)) return false;
-    if (selectedMax && min > parseFloat(selectedMax)) return false;
+    // const { min, max } = parseRange(cardRange);
+    // if (selectedMin && max < parseFloat(selectedMin)) return false;
+    // if (selectedMax && min > parseFloat(selectedMax)) return false;
     return true;
   };
 
-  const coilProducts = products.filter(p => p.type === "hot" && p.name === "coil");
-console.log(coilProducts);
+  const coilProducts = products.filter((p) => {
+    // console.log("Checking product:", p);
+    return   p.type.toLowerCase().includes("coil") && // matches 'hotrolledcoil', 'coldcoil', etc.
+    p.name.toLowerCase().includes("hot")
+  });
   
   const filteredData = coilProducts.filter((card) => {
     // Grade filter
     const gradeFilters = filters.Grade || [];
     if (gradeFilters.length > 0 &&
       !gradeFilters.some(grade => 
-        card.title.includes(grade) || card.thickness.includes(grade))
+        card.name.includes(grade) || card.thickness.includes(grade))
     ) {
       return false;
     }
@@ -120,7 +123,7 @@ console.log(coilProducts);
 
 
  {filteredData.map((card,index)=>(
-    <Link key={index} to={`/coilproduct/${index}`}>
+    <Link key={index} to={`/coilproduct/${card._id||index}`}>
     <Card {...card} />
   </Link> ))}
 

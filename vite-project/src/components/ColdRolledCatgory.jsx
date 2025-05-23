@@ -2,30 +2,40 @@ import React from 'react'
 import CardSheet from './CardSheet';
 import { Link } from 'react-router-dom';
 import {cardData} from './data/coldrollcoilshhet';
+import useFetchProducts from '../hooks/useFetchProducts';
 const ColdRolledCatgory = ({filters}) => {
   
 
+
+  const {products,loading,error}=useFetchProducts();
   const parseRange = (rangeStr) => {
     const [min, max] = rangeStr.split('-').map(parseFloat);
     return { min, max };
   };
 
+
+
+  
   
   const isWithinRange = (cardRange, selectedMin, selectedMax) => {
     if (!selectedMin && !selectedMax) return true;
-    const { min, max } = parseRange(cardRange);
-    if (selectedMin && max < parseFloat(selectedMin)) return false;
-    if (selectedMax && min > parseFloat(selectedMax)) return false;
+    // const { min, max } = parseRange(cardRange);
+    // if (selectedMin && max < parseFloat(selectedMin)) return false;
+    // if (selectedMax && min > parseFloat(selectedMax)) return false;
     return true;
   };
 
-   
-  const filteredData = cardData.filter((card) => {
+  const coilProducts = products.filter((p) => {
+    // console.log("Checking product:", p);
+    return   p.type.toLowerCase().includes("sheet") && // matches 'hotrolledcoil', 'coldcoil', etc.
+    p.name.toLowerCase().includes("cold")
+  });
+  const filteredData = coilProducts .filter((card) => {
     // Grade filter
     const gradeFilters = filters.Grade || [];
     if (gradeFilters.length > 0 &&
       !gradeFilters.some(grade => 
-        card.title.includes(grade) || card.thickness.includes(grade))
+        card.name.includes(grade) || card.thickness.includes(grade))
     ) {
       return false;
     }
@@ -123,7 +133,7 @@ const ColdRolledCatgory = ({filters}) => {
     </p>
   ) : (
     <div class="grid w-[90%]  grid-cols-1 m-auto sm:m-0 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6  mt-10  place-items-center ">    {filteredData.map((card, index) => (
-        <Link key={index} to={`/coldproductsheet/${index}`}>
+        <Link key={index} to={`/coldproductsheet/${card._id||index}`}>
           <CardSheet {...card} />
         </Link>
       ))}

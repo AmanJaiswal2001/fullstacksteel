@@ -80,14 +80,14 @@ const Section = () => {
 
             {/* Product Type Toggle */}
             <button className={`font-semibold hidden lg:block pt-1 font-poppins text-xl ${activeProduct === 'coil' ? 'border-b-2 border-black text-black font-bold' : 'text-gray-600'}`} onClick={() => setActiveProduct('coil')}>Coils</button>
-            {/* <button className={`font-semibold hidden lg:block font-poppins text-xl ${activeProduct === 'sheet' ? 'border-b-2 border-black text-black font-bold' : 'text-gray-600'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button> */}
+            <button className={`font-semibold hidden lg:block font-poppins text-xl ${activeProduct === 'sheet' ? 'border-b-2 border-black text-black font-bold' : 'text-gray-600'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button>
           </div>
 
           <div className='w-full border-t border-t-gray-300'>
             {/* Mobile Product Buttons */}
             <div className='flex sm:gap-10 px-5 gap-5 mt-5 lg:hidden sm:mx-10 lg:mx-0'>
               <button className={`font-normal cursor-pointer text-sm sm:w-20 w-16 p-2 font-poppins rounded-sm ${activeProduct === 'coil' ? 'border border-[#a0ceff] bg-[#e6f0ff] text-[#12396d]' : 'text-[rgb(38,38,38)] border border-[#b1b8c9]'}`} onClick={() => setActiveProduct('coil')}>Coils</button>
-              {/* <button className={`font-normal cursor-pointer text-sm sm:w-20 w-16 p-2 font-poppins rounded-sm ${activeProduct === 'sheet' ? 'border border-[#a0ceff] bg-[#e6f0ff] text-[#12396d]' : 'text-[rgb(38,38,38)] border border-[#b1b8c9]'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button> */}
+              <button className={`font-normal cursor-pointer text-sm sm:w-20 w-16 p-2 font-poppins rounded-sm ${activeProduct === 'sheet' ? 'border border-[#a0ceff] bg-[#e6f0ff] text-[#12396d]' : 'text-[rgb(38,38,38)] border border-[#b1b8c9]'}`} onClick={() => setActiveProduct('sheet')}>Sheets</button>
             </div>
 
             {/* ✅ Add Product button only for admin */}

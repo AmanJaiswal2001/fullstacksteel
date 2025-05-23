@@ -1,11 +1,14 @@
 // ProductDetail.jsx
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import cardData from "./data/hotrolledcarddarta"; // move cardData to separate file if needed
 import { LengthGrid, ThicknessGrid,WidthGrid } from "./HelperComponent";
 import { useState } from "react";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import hotrolledproductdata from "./data/hotrolledproductdata"
 import { Hotrolledinfo } from "./Hotrolledinfo";
+import DeleteButton from "./Admin/DeleteButton";
+import useFetchProducts from "../hooks/useFetchProducts";
+const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 const HotCatDelevery = () => {
 
 const [selectedThickness,setSelectedThickness]=useState(null);
@@ -15,20 +18,44 @@ const[customLength,setcustomLength]=useState(null);
 const[customNumber,setcustomNumber]=useState(null);
 const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-    const thicknessValues = [
-        "1.6", "1.8", "2.0", "2.2", "2.5", "2.8", "3.0",
-        "3.2", "3.5", "4.0", "4.5", "5.0", "5.5", "6.0",
-        "6.5", "7.0", "7.5", "8.0", "9.0", "10.0",
-        "11.0", "12.0", "13.0", "14.0", "15.0",
-        "16.0", "18.0", "20.0", "22.0", "25.0", "30.0"
-      ];
-      const widthValues=["900","1250","1500","2000"]
-      const lengthValues=["2500","3000","6300"]
-  const { id } = useParams();
-  const product = cardData[id];
-  // const productDetail=hotrolledproductdata[""];
 
+const navigate=useNavigate();
+    // const thicknessValues = [
+    //     "1.6", "1.8", "2.0", "2.2", "2.5", "2.8", "3.0",
+    //     "3.2", "3.5", "4.0", "4.5", "5.0", "5.5", "6.0",
+    //     "6.5", "7.0", "7.5", "8.0", "9.0", "10.0",
+    //     "11.0", "12.0", "13.0", "14.0", "15.0",
+    //     "16.0", "18.0", "20.0", "22.0", "25.0", "30.0"
+    //   ];
+      // const widthValues=["900","1250","1500","2000"]
+      // const lengthValues=["2500","3000","6300"]
+  const { id } = useParams();
+  // const product = cardData[id];
+
+  const isAdmin = localStorage.getItem('isAdmin') === 'true';
+   
+
+const { products, loading, error } = useFetchProducts();
+  // const productDetail=hotrolledproductdata[""];
+  if (loading) return <div className="text-center text-3xl font-bold font-poppins pt-20">Loading...</div>;
+  if (error) return <div className="text-center text-3xl font-bold font-poppins pt-20 text-red-600">Error loading products</div>;
+  if (!products || products.length === 0) return <div className="text-center text-3xl font-bold font-poppins pt-20">No products found</div>;
+
+  const product = products.find(p => p._id === id);
   if (!product) return <div className="font-poppins text-3xl font-bold text-center">Product not found</div>;
+
+
+
+  const handleDelete=async()=>{
+    try{
+  await axios.delete(`${BASE_URL}/api/admin/product/deleteProduct/${id}`);
+  navigate('/mildStainless')
+  }
+  catch (err) {
+    console.error("Failed to delete", err);
+  }
+  }
+
 
   return (
     <div className=" w-full px-5 mb-20 lg:px-20 z-10 pt-24 ">
@@ -39,18 +66,35 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
         {/* img */}
         <img 
         className=" h-full object-cover rounded-lg" 
-        src={product.image} alt={product.title} />
+        src={`${BASE_URL}${product?.image}`}   alt={product.title} />
    
 
       </div>
       <div className="lg:w-4/3 pt-4 lg:pt-0 flex flex-col gap-2">
 {/* detail */}
+<div className="flex justify-between  items-center">
+<h1 className="text-xl font-extrabold  sm:w-[420px] w-80 lg:w-full text-[#262626] font-poppins mb-2">{product.name}</h1>
 
-<h1 className="text-xl font-extrabold  sm:w-[420px] w-80 lg:w-full text-[#262626] font-poppins mb-2">{product.title}</h1>
-<div className="flex gap-2">
+{isAdmin&&(
+        <div className='flex gap-2 '>
+         <button  onClick={()=> navigate(`/editproduct/${id}`)} className='cursor-pointer bg-[#12396d] text-white p-2 rounded-full'>
+         <svg  
+          
+          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z"/></svg>
+         
+         </button>
+
+         <DeleteButton
+          onConfirm={handleDelete} 
+
+         />
+          </div>
+       )}  
+</div>
+{/* <div className="flex gap-2">
 <span className="text-sm font-normal font-poppins text-[#262626]">Brand:</span> <span className="font-semibold text-sm font-poppins text-[#262626] ">{product.brand}</span>
 
-</div>
+</div> */}
 
          <div className="flex w-[100%] sm:w-full  justify-between pb-2 border-b-2 border-gray-200">
           <h3 className="font-semibold text-[#262626] font-poppins text-[1rem]">Select attributes</h3>
@@ -59,7 +103,7 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
          
           setSelectedThickness(null)
           setSelectedWidth(null)
-          setSelectedLength(null)
+          // setSelectedLength(null)
           setcustomLength("")
           setcustomNumber("")
          }}
@@ -71,7 +115,7 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
          </div>
      <div className="">
      
-     <ThicknessGrid title="Thickness" values={thicknessValues}
+     <ThicknessGrid title="Thickness" values={product.thickness}
         selected={selectedThickness}
         onSelect={(value)=>{
           setSelectedThickness(value);
@@ -82,12 +126,12 @@ setSelectedWidth(null)
        </div>
       
 
-<WidthGrid title="Width" values={widthValues}
+<WidthGrid title="Width" values={product.width}
   disable={!selectedThickness} selected={selectedWidth}  showMessage={!selectedWidth} onSelect={(value)=>{setSelectedWidth(value);setSelectedLength(null);}}
 />
-<LengthGrid title="Length" values={lengthValues}
+{/* <LengthGrid title="Length" values={lengthValues}
    disable={!selectedWidth || (!!customLength && customLength.length > 0)} showMessage={!selectedLength} selected={selectedLength} onSelect={(value)=>setSelectedLength(value)}
-/>
+/> */}
 
 
 <div className="flex flex-col sm:flex-row sm:items-center gap-2 pt-2 w-full">
@@ -168,7 +212,7 @@ onChange={(e) => {
       {
         window.open(
           `https://wa.me/918062960347?text=${encodeURIComponent(
-            `Product: ${product.title}\nBrand: ${product.brand}\nThickness: ${selectedThickness} mm\nWidth: ${selectedWidth} mm\nLength: ${selectedLength || customLength} mm\nQuantity: ${customNumber} sheets`
+            `Product: ${product.name}\nThickness: ${selectedThickness} mm\nWidth: ${selectedWidth} mm\nLength: ${selectedLength || customLength} mm\nQuantity: ${customNumber} sheets`
           )}`,
           "_blank"
         );

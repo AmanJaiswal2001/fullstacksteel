@@ -9,6 +9,7 @@ import { Hotrolledinfo } from "./Hotrolledinfo";
 import { Hotrollcoilinfo } from "./Hotrollcoilinfo";
 import useFetchProducts from "../hooks/useFetchProducts";
 import DeleteButton from "./Admin/DeleteButton";
+const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 import axios from "axios";
 const HotCatCoilsDEl = () => {
 
@@ -62,7 +63,7 @@ const { products, loading, error } = useFetchProducts();
   
 const handleDelete=async()=>{
   try{
-await axios.delete(`http://localhost:8000/api/admin/product/deleteProduct/${id}`);
+await axios.delete(`${BASE_URL}/api/admin/product/deleteProduct/${id}`);
 navigate('/mildStainless')
 }
 catch (err) {
@@ -78,7 +79,8 @@ catch (err) {
         {/* img */}
         <img 
         className=" h-full object-cover rounded-lg" 
-        src={`http://localhost:8000${product?.image}`} alt={product?.title} />
+        src={`${BASE_URL}${product?.image}`}
+         alt={product?.title} />
    
 
       </div>

@@ -3,54 +3,6 @@ import Card from './Card';
 import Button from './Button';
 import { Link, useNavigate } from 'react-router-dom';
 
-// const cardData = [
-//     {
-//       title: "SONATEK Hot Rolled Coils IS 2062:2011 E250A",
-//       brand: "SONATEK",
-//       thickness: "1.6-25mm",
-//       width: "900-2000mm",
-//       buttonName: "Purchase now",
-//       delivery: "Delivery in 2-5 days",
-//       image: "/Hotrolledcoil.webp",
-//     },
-//     {
-//       title: "SONATEK Hot Rolled Sheets 2062:2011 E250A",
-//       brand: " SONATEK",
-//       thickness: "0.5-3mm",
-//       width: "600-1500mm",
-//       buttonName: "Purchase now",
-//       delivery: "Delivery in 3-7 days",
-//       image: "/hrc1.webp",
-//     },
-//     {
-//       title: "SONATEK Steel Plates 2062:2011 E250A",
-//       brand: " SONATEK",
-//       thickness: "2-40mm",
-//       width: "1200-2500mm",
-//       buttonName: "Purchase now",
-//       delivery: "Delivery in 4-6 days",
-//       image: "/Hotrolledcoil.webp",
-//     },
-//      {
-//       title: "SONATEK Hot Rolled Sheets 2062:2011 E250A",
-//       brand: " SONATEK",
-//       thickness: "1.2-16mm",
-//       width: "800-2200mm",
-//       buttonName: "Purchase now",
-//       delivery: "Delivery in 5-8 days",
-//       image: "/hrc2.webp",
-//      },
-//      {
-//       title: "SONATEK Galvanized Coils",
-//       brand: " SONATEK",
-//       thickness: "0.4-2mm",
-//       width: "700-1800mm",
-//       buttonName: "Purchase now",
-//       delivery: "Delivery in 2-4 days",
-//       image: "/Hotrolledcoil.webp",
-//      },
-//   ];
-  
 
 const CardContainer = ({data = [],type}) => {
     

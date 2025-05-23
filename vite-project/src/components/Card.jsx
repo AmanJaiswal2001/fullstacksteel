@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 const Card = ({
   name,
   brand,
@@ -33,7 +33,7 @@ const navigate=useNavigate();
       className={`card relative bg-base-100   w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] lg:max-w-[340px] xl:max-w-[360px] h-[450px] rounded-lg overflow-hidden border border-gray-200 shadow-sm transition-all duration-300 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${transformClass}`}
     >
       <figure className="w-full h-44">
-        <img className="w-full h-full object-cover" src={`http://localhost:8000${image}`} alt="card" />
+        <img className="w-full h-full object-cover" src={`${BASE_URL}${image}`} alt="card" />
       </figure>
 
       <div className="card-body p-2">

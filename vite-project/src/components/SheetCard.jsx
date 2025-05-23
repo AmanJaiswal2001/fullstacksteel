@@ -3,70 +3,75 @@ import Card from './Card';
 import CardSheet from './CardSheet';
 import Button from './Button';
 import { Link, useNavigate } from 'react-router-dom';
-const cardData = [
-    {
-      title: "SONATEK Steel Cold Rolled Coils IS 2062:2011 E250A",
-      brand: " SONATEK",
-      thickness: "1.6-25mm",
-      width: "900-2000mm",
-      buttonName: "Purchase now",
-      delivery: "Delivery in 2-5 days",
-      image: "/hrs.webp",
-    length:"500-12000mm"
-    },
-    {
-      title: "TATA Steel Cold Rolled Sheets 2062:2011 E250A",
-      brand: " SONATEK",
-      thickness: "0.5-3mm",
-      width: "600-1500mm",
-      buttonName: "Purchase now",
-      delivery: "Delivery in 3-7 days",
-      image: "/hrs1.webp",
-      length:"500-12000mm"
-    },
-    // {
-    //   title: "SAIL Steel Cold Plates",
-    //   brand: "Brand: SAIL",
-    //   thickness: "2-40mm",
-    //   width: "1200-2500mm",
-    //   buttonName: "Get Quote",
-    //   delivery: "Delivery in 4-6 days",
-    //   image: "https://images.ctfassets.net/o0otttl8ele8/5gsbSO1xNf1sDaht3NQeBD/c0e7e976bfec022a4e5cb865fadae500/cr-steel-advantages-min.jpg?fit=fill&w=280&h=153&fm=webp",
-    // },
-    //  {
-    //   title: "Essar Cold Rolled Sheets",
-    //   brand: "Brand: Essar Steel",
-    //   thickness: "1.2-16mm",
-    //   width: "800-2200mm",
-    //   buttonName: "Buy Now",
-    //   delivery: "Delivery in 5-8 days",
-    //   image: "https://images.ctfassets.net/o0otttl8ele8/3HILc9ZoCKpUsn6crHWRSA/f25ae168abf380cf756b19a6e22caefa/ezgif.com-gif-maker__35_.webp?fit=fill&w=280&h=153&fm=webp",
-    //  },
-    //  {
-    //   title: "Jindal Cold Galvanized Coils",
-    //   brand: "Brand: Jindal Steel",
-    //   thickness: "0.4-2mm",
-    //   width: "700-1800mm",
-    //   buttonName: "Purchase",
-    //   delivery: "Delivery in 2-4 days",
-    //   image: "https://images.ctfassets.net/o0otttl8ele8/3HILc9ZoCKpUsn6crHWRSA/f25ae168abf380cf756b19a6e22caefa/ezgif.com-gif-maker__35_.webp?fit=fill&w=280&h=153&fm=webp",
-    //  },
-  ];
+// const cardData = [
+//     {
+//       title: "SONATEK Steel Cold Rolled Coils IS 2062:2011 E250A",
+//       brand: " SONATEK",
+//       thickness: "1.6-25mm",
+//       width: "900-2000mm",
+//       buttonName: "Purchase now",
+//       delivery: "Delivery in 2-5 days",
+//       image: "/hrs.webp",
+//     length:"500-12000mm"
+//     },
+//     {
+//       title: "TATA Steel Cold Rolled Sheets 2062:2011 E250A",
+//       brand: " SONATEK",
+//       thickness: "0.5-3mm",
+//       width: "600-1500mm",
+//       buttonName: "Purchase now",
+//       delivery: "Delivery in 3-7 days",
+//       image: "/hrs1.webp",
+//       length:"500-12000mm"
+//     },
+//     // {
+//     //   title: "SAIL Steel Cold Plates",
+//     //   brand: "Brand: SAIL",
+//     //   thickness: "2-40mm",
+//     //   width: "1200-2500mm",
+//     //   buttonName: "Get Quote",
+//     //   delivery: "Delivery in 4-6 days",
+//     //   image: "https://images.ctfassets.net/o0otttl8ele8/5gsbSO1xNf1sDaht3NQeBD/c0e7e976bfec022a4e5cb865fadae500/cr-steel-advantages-min.jpg?fit=fill&w=280&h=153&fm=webp",
+//     // },
+//     //  {
+//     //   title: "Essar Cold Rolled Sheets",
+//     //   brand: "Brand: Essar Steel",
+//     //   thickness: "1.2-16mm",
+//     //   width: "800-2200mm",
+//     //   buttonName: "Buy Now",
+//     //   delivery: "Delivery in 5-8 days",
+//     //   image: "https://images.ctfassets.net/o0otttl8ele8/3HILc9ZoCKpUsn6crHWRSA/f25ae168abf380cf756b19a6e22caefa/ezgif.com-gif-maker__35_.webp?fit=fill&w=280&h=153&fm=webp",
+//     //  },
+//     //  {
+//     //   title: "Jindal Cold Galvanized Coils",
+//     //   brand: "Brand: Jindal Steel",
+//     //   thickness: "0.4-2mm",
+//     //   width: "700-1800mm",
+//     //   buttonName: "Purchase",
+//     //   delivery: "Delivery in 2-4 days",
+//     //   image: "https://images.ctfassets.net/o0otttl8ele8/3HILc9ZoCKpUsn6crHWRSA/f25ae168abf380cf756b19a6e22caefa/ezgif.com-gif-maker__35_.webp?fit=fill&w=280&h=153&fm=webp",
+//     //  },
+//   ];
   
 
-const SheetCard = ({type}) => {
+const SheetCard = ({data = [],type}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const visibleCards = 3; 
     const navigate = useNavigate();
 
-    const filteredCards = cardData.filter((card) => {
-        if (type === "hot") {
-          return card.title.toLowerCase().includes("hot");
-        } else if (type === "cold") {
-          return card.title.toLowerCase().includes("cold");
-        }
-        return true; // fallback for all
-      });
+    const filteredCards=data.filter((card)=>{
+      return card.type?.toLowerCase().includes(type);
+          })
+          
+
+    // const filteredCards = cardData.filter((card) => {
+    //     if (type === "hot") {
+    //       return card.title.toLowerCase().includes("hot");
+    //     } else if (type === "cold") {
+    //       return card.title.toLowerCase().includes("cold");
+    //     }
+    //     return true; // fallback for all
+    //   });
     
       // Reset index when type changes
       useEffect(() => {
@@ -89,7 +94,7 @@ const SheetCard = ({type}) => {
         <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10  ">
        
         {filteredCards.slice(currentIndex, currentIndex + visibleCards).map((card, index) => (
-            <Link  key={index} to={`/product/${index}`} className='w-full flex justify-center gap-0'>
+            <Link  key={card._id || indexindex} to={`/product/${card._id || index}`} className='w-full flex justify-center gap-0'>
             <CardSheet key={index} {...card} />
             </Link>
           ))}

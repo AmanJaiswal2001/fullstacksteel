@@ -3,10 +3,11 @@ import CardSheet from './CardSheet';
 import { Link } from 'react-router-dom';
 import cardData from '././data/hotrollcoils';
 import Card from './Card';
+import useFetchProducts from '../hooks/useFetchProducts';
 const  CoilsCat = ({filters}) => {
   
 
-
+const {products,loading,error}=useFetchProducts();
 
   const parseRange = (rangeStr) => {
     const [min, max] = rangeStr.split('-').map(parseFloat);
@@ -21,9 +22,10 @@ const  CoilsCat = ({filters}) => {
     return true;
   };
 
-
+  const coilProducts = products.filter(p => p.type === "hot" && p.name === "coil");
+console.log(coilProducts);
   
-  const filteredData = cardData.filter((card) => {
+  const filteredData = coilProducts.filter((card) => {
     // Grade filter
     const gradeFilters = filters.Grade || [];
     if (gradeFilters.length > 0 &&

@@ -17,9 +17,9 @@ const AddProduct = () => {
   const [imageFile, setImageFile] = useState(null);
   const [message, setMessage] = useState("");
   const typeOptions = [
-    // 'hotrolledsheet',
+    'hotrolledsheet',
     'hotrolledcoil',
-    // 'coldrolledsheet',
+    'coldrolledsheet',
     'coldrolledcoil',
   ];
 

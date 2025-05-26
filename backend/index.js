@@ -12,6 +12,7 @@ const productRoutes=require("./src/routes/productRoutes.js")
 const customRoutes=require("./src/routes/customRoutes.js")
 const uploadRoutes=require("./src/routes/uploadRoute.js")
 const contactRoutes=require("./src/routes/contactRoutes.js");
+const blogRoutes=require('./src/routes/blogRoutes.js');
 const allowedOrigins = [
     "http://localhost:5173",
     "http://65.108.1.122:8000/"
@@ -41,6 +42,7 @@ app.use('/api/admin/product',customRoutes);
 app.use("/api/admin/product", uploadRoutes);
 app.use("/uploads", express.static("uploads")); // Serve uploaded files
 app.use("/api",contactRoutes);
+app.use('/api/admin',blogRoutes);
 
 
 

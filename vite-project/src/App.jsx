@@ -4,6 +4,8 @@ import AdminLogin from "./components/Admin/AdminLogin";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AddProduct from "./components/Admin/AddProduct";
 import EditForm from "./components/Admin/EditForm";
+import AddBlog from "./components/Admin/AddBlog";
+import EditBlog from "./components/Admin/EditBlog";
 
 const Nav = lazy(() => import('./components/Nav'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -81,14 +83,19 @@ const appRouter = createBrowserRouter([
       { path: "crsheets", element: <CRSheets /> },
       { path: "crcoils", element: <CRCoils /> },
       { path: "privacy", element: <PrivacyPage /> },
-      { path: "temp", element: <Blog1 /> },
+      // { path: "temp", element: <Blog1 /> },
 
-{ path: "smooth", element: <Blog2 /> },
-{ path: "basic", element: <Blog3 /> },
+// { path: "smooth", element: <Blog2 /> },
+// { path: "basic", element: <Blog3 /> },
 { path: "/adminlogin", element: <AdminLogin /> },
 {path:"/admindashboard",element:<AdminDashboard/>},
 {path:"/addproduct",element:<AddProduct/>},
-{path:"/editproduct/:id",element:<EditForm/>}
+{path:"/editproduct/:id",element:<EditForm/>},
+{path:"/addBlog",element:<AddBlog/>},
+{path:"/blog/:id",element:<Blog1/>},
+{path:"/addBlog/:id",element:<Blog2/>},
+{path:"/addBlog/:id",element:<Blog3/>},
+{path:"/editblog/:id",element:<EditBlog/>},
       
     ],
   },

@@ -1,101 +1,88 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import DOMPurify from 'dompurify';
+import useSingleBlog from '../hooks/useSingleBlog';
 
-
-// blogData.ts
- export const temperatureBlogContent = [
-    {
-      type: "paragraph",
-      text: "Hot rolling is a metalworking process that occurs above the recrystallization temperature of the material, typically over 1700°F."
-    },
-    {
-      type: "paragraph",
-      text:  "Hot rolling is a metalworking process that occurs above the recrystallization temperature of the material. This process helps in shaping large pieces of metal into thinner and longer forms, such as sheets, coils, and plates.Due to the high temperature, the metal becomes more malleable and easier to shape under roll pressure.It enhances production speed and efficiency, making it ideal for mass production of structural steel products."
-     },
-    {
-      type: "heading",
-      text: "Key Advantages of Hot Rolling"
-    },
-    {
-      type: "list",
-      items: [
-        "Enables faster shaping of large metal slabs into desired forms.",
-        "Improves ductility making further processing easier.",
-        "Suitable for mass production due to high processing speed.",
-        "Cost-effective for structural applications.",
-        "Reduces internal material stress after cooling."
-      ]
-    },
-    {
-      type: "heading",
-      text: "Common Applications"
-    },
-    {
-      type: "list",
-      items: [
-        "Structural beams (I-beams, H-beams)",
-        "Railway tracks",
-        "Automotive chassis and frames",
-        "Pipes and tubes",
-        "Heavy machinery parts"
-      ]
-    },
-    {
-      type: "paragraph",
-      text: "Despite the rougher surface finish, hot rolled steel is ideal for use where exact dimensions and aesthetics are not the primary concern."
-    }
-  ];
-  
-  
-
+const BASE_URL = import.meta.env.VITE_BACKEND_LIVE;
 
 const Blog1 = () => {
+  const { id } = useParams();
+  const { blog, loading, error } = useSingleBlog(id);
 
-    return (
-        <div>
-            <div className="  w-full mb-20  pt-20 sm:pt-0">
-            <div className="w-full relative">
-            <img className='w-full h-[500px] object-cover' src="/skyline.jpg" />
-    <div className='flex items-center justify-center'>
-    <div className='flex w-full '>
-    <p className='absolute text-white top-[60%] sm:left-20 left-0 px-5  text-3xl  font-extrabold flex  md:text-5xl  m-auto font-poppins'>Temperature</p>
-     <p className='absolute sm:w-[60%] w-full px-5 text-white top-[70%] sm:left-20 left-0  text-xl font-semibold flex  md:text-3xl  m-auto font-poppins'>Hot rolling primarily involves deforming the slab/bloom at high temperature & roll pressure.</p>
-    </div>  
-    </div>
-               </div>
-    
-    
-               <div className="w-full sm:px-20 px-5 mx-auto  py-10 font-poppins text-[#262626]">
-               {temperatureBlogContent.map((block, idx) => {
-  if (block.type === "heading") {
-    return <h3 key={idx} className="sm:text-3xl text-lg font-poppins font-semibold mb-1 ">{block.text}</h3>;
-  } else if (block.type === "paragraph") {
-    return <p key={idx} className=" text-lg leading-relaxed">{block.text}</p>;
-  } else if (block.type === "list") {
-    return (
-      <ul key={idx} className="list-disc ml-6 mb-2 text-sm text-gray-700 space-y-1">
-        {block.items.map((item, i) => (
-          <li key={i}>{item}</li>
-        ))}
-      </ul>
-    );
-  }
-  return null;
-})}
-    </div>
-    
+  const getTextFromHTML = (html) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  };
+  const navigate=useNavigate();
+  const isAdmin = localStorage.getItem('isAdmin') === 'true';
      
-    
-     
-    
-    {/* section 3 */}
-    
-    
-    
-    
-    </div>
-        </div>
-      )
- 
-}
 
-export default Blog1
+  useEffect(() => {
+    console.log('Fetched single Blog Data:', blog);
+  }, [blog]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading blog.</p>;
+
+  return (
+    <div className=" w-full mx-auto">
+     <div className='w-full bg-red-500'>
+     <img
+        src={`${BASE_URL}/uploads/${blog.banerImage}`}
+        alt=""
+        className="w-full h-[500px] object-cover rounded-md mb-6"
+      />
+     </div>
+    
+
+    
+{isAdmin&&(
+        <div className='flex gap-2 '>
+         <button  onClick={()=> navigate(`/editblog/${id}`)} className='cursor-pointer bg-[#12396d] text-white p-2 rounded-full'>
+         <svg  
+          
+          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z"/></svg>
+         
+         </button>
+         </div>
+)}
+{blog.content?.map((block, index) => {
+              const cleanHTML = DOMPurify.sanitize(block.text || '');
+        // ✅ Fallback for unknown types — render rich HTML
+        return (
+          <div
+             key={index}
+             className="mb-4 text-base text-gray-800  leading-relaxed
+        [&_h1]:font-bold [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base [&_h5]:text-base [&_h6]:text-base
+         [&_h2]:font-normal [&_h3]:font-normal [&_h4]:font-normal [&_h5]:font-normal [&_h6]:font-normal
+        [&_p]:text-base [&_p]:mb-2
+        [&_ul]:list-disc [&_ul]:ml-5 [&_li]:my-1
+        [&_ol]:list-decimal [&_ol]:ml-5
+        [&_strong]:font-bold [&_b]:font-bold
+        [&_em]:italic [&_i]:italic
+        [&_u]:underline
+        [&_*]:text-gray-800 [&_*]:font-normal"
+            dangerouslySetInnerHTML={{ __html: cleanHTML }}
+          />
+        );
+      })}
+
+      {/* Side Image */}
+      {blog.sideImage && (
+        <img
+          src={
+            blog.sideImage.startsWith('http')
+              ? blog.sideImage
+              : `${BASE_URL}/uploads/${blog.sideImage}`
+          }
+          alt="Side"
+          className="w-full h-60 object-cover rounded mt-10"
+        />
+      )}
+    </div>
+  );
+};
+
+
+export default Blog1;

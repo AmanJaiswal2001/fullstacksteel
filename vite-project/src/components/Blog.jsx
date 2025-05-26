@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ArticleCard from './ArticleCard'
 import { Link } from 'react-router-dom'
 import Button from './Button'
+import useFetchBlog from '../hooks/useFetchBlog'
+
+
+
+
+
+
 
 const Blog = () => {
+  const {blog,error,loading}=useFetchBlog();
+  
+  
+  
+useEffect(() => {
+  console.log('Fetched Blog Data:', blog);
+}, [blog]);
   return (
     <div className='h-full w-full mt-10   '>
     <h1 className='font-bold lg:text-3xl  text-2xl w-[80%] lg:px-10 sm:px-10 px-5 py-5 font-poppins text-[#262626] '>Browse articles & blogs</h1>

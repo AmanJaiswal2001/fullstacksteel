@@ -14,6 +14,7 @@ const createProduct = async (req, res) => {
       length,
       purchaseNow,
       deliveryDays,
+      number,
     } = req.body;
 
     if (!name || !type) {
@@ -36,6 +37,7 @@ const createProduct = async (req, res) => {
       length: JSON.parse(length || '[]'),
       purchaseNow,
       deliveryDays,
+      number
     });
 
     await product.save();
@@ -90,59 +92,54 @@ const getProductById=async(req,res)=>{
 
 
 const updateProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-  
-      // Handle image if updated
-    
-    
-    const existingProduct=await Product.findById(id);
+  try {
+    const { id } = req.params;
 
-    if(!existingProduct) return res.status(404).json({message:"Product not found"});
-    
-    
-      let updateData = {
-        ...req.body,
-      };
-  
-      if (req.file) {
-       if(req.file){
-        if(existingProduct.image){
-          const oldImagePath=path.join(process.cwd(),existingProduct.image.replace(/^\/+/, ''));
-          fs.unlink(oldImagePath,(err)=>{
-            if(err){
-              console.log('Failed to delete old image',err.message);
-            }else{
-              console.log("old image delete successfully");
-            }
-          });
-        }
-       }
-       
-       
-       
-       
-        updateData.image = `/uploads/${req.file.filename}`;
-      }
-  
-      // Optional: parse arrays if passed as strings
-      if (updateData.thickness) updateData.thickness = JSON.parse(updateData.thickness);
-      if (updateData.width) updateData.width = JSON.parse(updateData.width);
-      if (updateData.length) updateData.length = JSON.parse(updateData.length);
-  
-      const updated = await Product.findByIdAndUpdate(id, updateData, { new: true });
-  
-      // if (!updated) {
-      //   return res.status(404).json({ message: "Product not found" });
-      // }
-  
-      res.status(200).json({ success: true, product: updated });
-  
-    } catch (err) {
-      console.error("Update product error", err);
-      res.status(500).json({ message: "Server error", error: err.message });
+    const existingProduct = await Product.findById(id);
+    if (!existingProduct) {
+      return res.status(404).json({ message: "Product not found" });
     }
-  };
+
+    let updateData = {
+      ...req.body,
+    };
+
+    // Handle image update and delete old image
+    if (req.file) {
+      if (existingProduct.image) {
+        const oldImagePath = path.join(process.cwd(), existingProduct.image.replace(/^\/+/, ''));
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.log('Failed to delete old image', err.message);
+          } else {
+            console.log("Old image deleted successfully");
+          }
+        });
+      }
+      updateData.image = `/uploads/${req.file.filename}`;
+    }
+
+    // Parse arrays if needed
+    if (updateData.thickness) updateData.thickness = JSON.parse(updateData.thickness);
+    if (updateData.width) updateData.width = JSON.parse(updateData.width);
+    if (updateData.length) updateData.length = JSON.parse(updateData.length);
+
+    // ✅ Run validation during update
+    const updated = await Product.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true, // 👈 ensures schema validation
+    });
+
+    res.status(200).json({ success: true, product: updated });
+
+  } catch (err) {
+    console.error("Update product error", err);
+    res.status(500).json({
+      message: "Server error",
+      error: err.errors?.number?.message || err.message, // return number field error if exists
+    });
+  }
+};
 
 
 const deleteProduct=async(req,res)=>{

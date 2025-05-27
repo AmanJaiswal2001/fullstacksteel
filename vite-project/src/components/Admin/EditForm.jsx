@@ -15,6 +15,7 @@ const EditForm = () => {
     length: '',
     purchaseNow: '',
     deliveryDays: '',
+    number:''
   });
 
   const [imageFile, setImageFile] = useState("");
@@ -41,6 +42,7 @@ const EditForm = () => {
           length: (data.length || []).join(','),
           purchaseNow: data.purchaseNow || '',
           deliveryDays: data.deliveryDays || '',
+          number: data.number || '',
         });
         setExistingImage(data.image || '');
         setLoading(false);
@@ -75,6 +77,7 @@ const EditForm = () => {
     data.append("length", JSON.stringify(formData.length.split(',').map(Number)));
     data.append("purchaseNow", formData.purchaseNow);
     data.append("deliveryDays", formData.deliveryDays);
+    data.append("number", formData.number);
     if (imageFile) data.append("file", imageFile);
 
     try {
@@ -90,7 +93,7 @@ const EditForm = () => {
       navigate('/mildStainless'); // optional: redirect after save
     } catch (err) {
       setMessage(err.response?.data?.message || "Error updating product");
-      toast.error('Edit failed. Please try again.');
+      toast.error(`Edit failed. Please try again: ${err.response?.data?.error}`);
     }
   };
 
@@ -206,6 +209,17 @@ const EditForm = () => {
           />
         </div>
 
+
+        <div>
+          <label className="block">Phone No</label>
+          <input
+            type="text"
+            name="number"
+            value={formData.number}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+        </div>
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"

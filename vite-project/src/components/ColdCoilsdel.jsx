@@ -194,6 +194,7 @@ onChange={(e) => {
 
 </div>
 
+<div className="flex">
 <div className="sm:h-48  lg:w-80 w-72     sm:flex md:flex lg:flex flex-col gap-4  rounded-lg">
 <h1 className="font-poppins font-bold text-lg pt-4">Send the all details on whatapps </h1>
 <a 
@@ -231,8 +232,15 @@ onChange={(e) => {
 </div>
 
 
+<a href={`tel:${product.number}`} target="_blank">
+        <div className=" bg-[#12396d] gap-4 items-center  flex h-14  mt-14  p-2 rounded-lg w-full sm:w-48 transition-colors duration-200">
+   
+      <svg className=" rounded-full  text-white  p-1 h-10 w-10 border " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg>
+      <span className="text-white font-lg font-medium font-poppins">Just Call Now</span>
 
-
+      </div> 
+      </a>
+</div>
      
 </div>
 </div>

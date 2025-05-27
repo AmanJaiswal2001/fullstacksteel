@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
+import toast from 'react-hot-toast';
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -11,6 +12,7 @@ const AddProduct = () => {
     length: '',
     purchaseNow: '',
     deliveryDays: '',
+    number:''
   });
 
   const [error, setError] = useState('');
@@ -44,6 +46,7 @@ const AddProduct = () => {
     data.append("length", JSON.stringify(formData.length.split(',').map(Number)));
     data.append("purchaseNow", formData.purchaseNow);
     data.append("deliveryDays", formData.deliveryDays);
+    data.append("number", formData.number);
     if (imageFile) data.append("file", imageFile); // 👈 file key must match multer field name
 
     try {
@@ -53,7 +56,13 @@ const AddProduct = () => {
         },
       });
       setMessage(res.data.message);
+      toast.success("product added successfully",res.data);
     } catch (err) {
+     let errorMsg = err.response?.data?.error ||  // ← this gets your validation message
+    err.response?.data?.message ||
+    err.message ||
+    "Something went wrong";
+      toast.error(`Error uploading:${errorMsg}`);
       setMessage(err.response?.data?.message || "Error uploading");
     }
   };
@@ -147,6 +156,17 @@ const AddProduct = () => {
           />
         </div>
 
+
+        <div>
+          <label className="block">Phone No</label>
+          <input
+            type="text"
+            name="number"
+            value={formData.number}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+        </div>
         <div>
           <label className="block">Delivery Days *</label>
           <input

@@ -103,6 +103,7 @@ data.append('content',JSON.stringify(formData.content));
         //   onChange={(e) => setFormData({ ...formData, banerImage: e.target.value })}
        onChange={handleFileChange}
        required
+      
         />
         <input
           type="file"

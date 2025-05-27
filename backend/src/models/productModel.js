@@ -20,7 +20,18 @@ const productSchema = new mongoose.Schema({
   length: { type: [Number], default: [] },
 
   purchaseNow: { type: String, default: false },
-  deliveryDays: { type: String, required: true }
+  deliveryDays: { type: String, required: true },
+  number: {
+  type: String,
+  required: [true, 'Number is required'],
+  validate: {
+    validator: function (v) {
+      return /^\d{10}$/.test(v.toString());
+    },
+    message: 'Number must be exactly 10 digits',
+  },
+}
+
 });
 
 module.exports = mongoose.model('product', productSchema);

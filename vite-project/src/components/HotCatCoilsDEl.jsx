@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import cardData from "./data/hotrollcoils"; // move cardData to separate file if needed
 import { ThicknessGrid,WidthGrid } from "./HelperComponent";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import hotrolledproductdata from "./data/hotrollcoildata"
 import { Hotrolledinfo } from "./Hotrolledinfo";
@@ -28,7 +28,9 @@ const isAdmin = localStorage.getItem('isAdmin') === 'true';
 const { products, loading, error } = useFetchProducts();
 
 
-
+// useEffect(()=>{
+//   console.log("fetch data",products);
+// },[id])
 
     // const thicknessValues = [
     //     "1.6", "1.8", "2.",  "2.5",  "3.0",
@@ -46,6 +48,8 @@ const { products, loading, error } = useFetchProducts();
       const product = products.find(p => p._id === id);
       if (!product) return <div className="text-center text-3xl font-bold font-poppins pt-20">Product not found</div>;
     
+
+      console.log("fetch",product);
       // Extract unique thickness values sorted ascending
     
     
@@ -199,8 +203,7 @@ onClick={()=>{
 
 
 </div>
-
-
+<div className="flex">
 <div className="sm:h-48  lg:w-80 w-52     sm:flex md:flex lg:flex flex-col gap-4  rounded-lg">
 <h1 className="font-poppins font-bold text-lg pt-4">Send the all details on whatapps </h1>
 {/* <a 
@@ -240,6 +243,19 @@ onClick={()=>{
       {/* </a> */}
 </div>
 
+      
+        {/* whatapps buttom*/}
+        <a href={`tel:${product.number}`} target="_blank">
+        <div className=" bg-[#12396d] gap-4 items-center  flex h-14  mt-14  p-2 rounded-lg w-full sm:w-48 transition-colors duration-200">
+   
+      <svg className=" rounded-full  text-white  p-1 h-10 w-10 border " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg>
+      <span className="text-white font-lg font-medium font-poppins">Just Call Now</span>
+
+      </div> 
+      </a>
+      {/* </a> */}
+
+</div>
 
 
 </div>

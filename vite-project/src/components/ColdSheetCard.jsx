@@ -29,7 +29,7 @@ const ColdSheetCard = ({type,data=[]}) => {
       }, [type]);
 
     const nextSlide = () => {
-        if (currentIndex + visibleCards < cardData.length) {
+        if (currentIndex + visibleCards < filteredCards.length) {
           setCurrentIndex(currentIndex + 1);
         }
       };
@@ -68,7 +68,7 @@ const ColdSheetCard = ({type,data=[]}) => {
             <button
             className={`absolute -right-10   h-9 w-9 top-[40%] hidden bg-[#e6f0ff] lg:flex items-center justify-center bg-opacity-50 cursor-pointer text-[#2241a6] p-1 rounded-lg hover:bg-[#d7e7ff] ${currentIndex + visibleCards >= filteredCards.length ?"hidden":"block"}`}
             onClick={nextSlide}
-            disabled={currentIndex + visibleCards >= cardData.length}
+            disabled={currentIndex + visibleCards >= filteredCards.length}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m14.475 12l-7.35-7.35q-.375-.375-.363-.888t.388-.887t.888-.375t.887.375l7.675 7.7q.3.3.45.675t.15.75t-.15.75t-.45.675l-7.7 7.7q-.375.375-.875.363T7.15 21.1t-.375-.888t.375-.887z"/></svg>    
            

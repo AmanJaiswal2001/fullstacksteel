@@ -6,7 +6,7 @@ import AddProduct from "./components/Admin/AddProduct";
 import EditForm from "./components/Admin/EditForm";
 import AddBlog from "./components/Admin/AddBlog";
 import EditBlog from "./components/Admin/EditBlog";
-
+import { Toaster } from 'react-hot-toast';
 const Nav = lazy(() => import('./components/Nav'));
 const Footer = lazy(() => import('./components/Footer'));
 const PhoneCall = lazy(() => import('./components/PhoneCall'));
@@ -93,8 +93,8 @@ const appRouter = createBrowserRouter([
 {path:"/editproduct/:id",element:<EditForm/>},
 {path:"/addBlog",element:<AddBlog/>},
 {path:"/blog/:id",element:<Blog1/>},
-{path:"/addBlog/:id",element:<Blog2/>},
-{path:"/addBlog/:id",element:<Blog3/>},
+// {path:"/addBlog/:id",element:<Blog2/>},
+// {path:"/addBlog/:id",element:<Blog3/>},
 {path:"/editblog/:id",element:<EditBlog/>},
       
     ],
@@ -110,7 +110,13 @@ function App() {
       });
     }
   }, [location]);
-  return <RouterProvider router={appRouter} />;
+  return (
+    <>
+  <Toaster position="top-center" reverseOrder={false} />
+  <RouterProvider router={appRouter} />
+ 
+  </>
+  )
 }
 
 export default App;

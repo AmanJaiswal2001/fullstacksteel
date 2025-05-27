@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import TipTapEditor from './TipTapEditor';
-
+import toast from 'react-hot-toast';
 const BASE_URL = import.meta.env.VITE_BACKEND_LIVE;
 
 const EditBlog = () => {
@@ -106,12 +106,14 @@ const EditBlog = () => {
         },
       });
 
-      setMessage(res.data.message || "Product updated successfully");
-
+      setMessage(res.data.message || "Product edit successfully");
+      toast.success('Blog edit successfully!');
     //   alert('Blog updated successfully');
     } catch (error) {
       console.error(error);
     //   alert('Failed to update blog');
+    toast.error('Upload failed. Please try again.');
+ 
     setMessage(err.response?.data?.message || "Error updating product")
     }
   };
@@ -133,24 +135,20 @@ const EditBlog = () => {
     name="banerImage"
     className="w-full border p-2 rounded"
     accept="image/*"
-    onChange={(e) => {
-      const file = e.target.files[0];
-      setImageFile((prev) => ({
-        ...prev,
-        banerImage: file || null,
-      }));
-    }}
+    onChange={handleFileChange}
+    
   />
 
-  {imageFile?.banerImage && (
+  {imageFile.banerImage && (
     <img
       src={
         typeof imageFile.banerImage === 'string'
           ? imageFile.banerImage.startsWith('http')
             ? imageFile.banerImage
             : `${BASE_URL}/uploads/${imageFile.banerImage}`
-          : URL.createObjectURL(imageFile.banerImage)
-      }
+            : imageFile.banerImage instanceof Blob || imageFile.banerImage instanceof File
+          ? URL.createObjectURL(imageFile.banerImage)
+          : ''      }
       alt="Banner Preview"
       className="h-32 object-cover rounded border mt-1"
     />
@@ -171,9 +169,9 @@ const EditBlog = () => {
   {imageFile.sideImage && (
     <img
       src={
-      typeof imageFile.banerImage === 'string'
-          ? imageFile.banerImage.startsWith('http')
-            ? imageFile.banerImage
+      typeof imageFile.sideImage === 'string'
+          ? imageFile.sideImage.startsWith('http')
+            ? imageFile.sideImage
             : `${BASE_URL}/uploads/${imageFile.sideImage}`
           : URL.createObjectURL(imageFile.sideImage)
       }

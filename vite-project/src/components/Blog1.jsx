@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import useSingleBlog from '../hooks/useSingleBlog';
-
+import DeleteButton from './Admin/DeleteButton';
+import axios from 'axios';
+import { motion } from 'framer-motion';
 const BASE_URL = import.meta.env.VITE_BACKEND_LIVE;
 
 const Blog1 = () => {
@@ -18,6 +20,19 @@ const Blog1 = () => {
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
      
 
+const handleDelete=async()=>{
+  try{
+await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
+  }
+  catch(err){
+    console.error('Failed to delete',err);
+  }
+}
+
+
+
+
+
   useEffect(() => {
     console.log('Fetched single Blog Data:', blog);
   }, [blog]);
@@ -27,33 +42,58 @@ const Blog1 = () => {
 
   return (
     <div className=" w-full mx-auto">
-     <div className='w-full bg-red-500'>
+     <div className='w-full relative'>
      <img
         src={`${BASE_URL}/uploads/${blog.banerImage}`}
         alt=""
         className="w-full h-[500px] object-cover rounded-md mb-6"
       />
+    
+<div className='absolute bottom-10 '>
+{
+        blog.content.map((item)=>(
+<div>
+<li className='text-5xl font-poppins text-white font-bold px-20  '>{item.type}</li>
+</div>
+        ))
+      }
+</div>
+   
+    
      </div>
     
 
     
 {isAdmin&&(
-        <div className='flex gap-2 '>
+        <div className='flex gap-2 justify-end px-5 '>
          <button  onClick={()=> navigate(`/editblog/${id}`)} className='cursor-pointer bg-[#12396d] text-white p-2 rounded-full'>
          <svg  
           
           xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z"/></svg>
          
          </button>
+       
+         <DeleteButton
+          onConfirm={handleDelete} 
+
+         />
+       
          </div>
 )}
+
+
+<div className='flex mb-20 w-full px-20 '>
+
+<div className='flex flex-col pt-10 w-1/2'>
+
+
 {blog.content?.map((block, index) => {
               const cleanHTML = DOMPurify.sanitize(block.text || '');
         // ✅ Fallback for unknown types — render rich HTML
         return (
           <div
              key={index}
-             className="mb-4 text-base text-gray-800  leading-relaxed
+             className="mb-4 px-2 text-lg font-poppins  text-base text-gray-800  leading-relaxed
         [&_h1]:font-bold [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base [&_h5]:text-base [&_h6]:text-base
          [&_h2]:font-normal [&_h3]:font-normal [&_h4]:font-normal [&_h5]:font-normal [&_h6]:font-normal
         [&_p]:text-base [&_p]:mb-2
@@ -68,8 +108,19 @@ const Blog1 = () => {
         );
       })}
 
-      {/* Side Image */}
-      {blog.sideImage && (
+
+      {
+        blog.content.map((item)=>(
+<div>
+<p className='text-lg font-poppins  font-medium'>{item.items}</p>
+</div>
+        ))
+      }
+</div>
+
+<motion.div className='w-1/2  whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.8 }}'>
+{blog.sideImage && (
         <img
           src={
             blog.sideImage.startsWith('http')
@@ -77,9 +128,17 @@ const Blog1 = () => {
               : `${BASE_URL}/uploads/${blog.sideImage}`
           }
           alt="Side"
-          className="w-full h-60 object-cover rounded mt-10"
+          className="w-full h-full object-cover rounded mt-10 transition-transform duration-500 ease-in-out hover:scale-110"
         />
       )}
+</motion.div>
+
+</div>
+
+
+
+      {/* Side Image */}
+     
     </div>
   );
 };

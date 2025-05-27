@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
  import TipTapEditor from './TipTapEditor';
  const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
+
+ import toast from 'react-hot-toast';
+
 const AddBlog = () => {
   const [formData, setFormData] = useState({
     // banerImage: '',
@@ -11,6 +14,7 @@ const AddBlog = () => {
     ],
   });
 
+  const [message,setMessage]=useState('');
 const [imageFile,setImageFile]=useState({
     banerImage:null,
     sideImage:null,
@@ -73,11 +77,16 @@ data.append('content',JSON.stringify(formData.content));
         },
       }
 
+     
+
   ); // adjust API route if needed
-      alert('Content uploaded successfully');
+      // alert('Content uploaded successfully');
+
+      toast.success('Blog added successfully!');
     } catch (error) {
       console.error(error);
-      alert('Upload failed');
+      toast.error('Upload failed. Please try again.');
+ 
     }
   };
 
@@ -93,6 +102,7 @@ data.append('content',JSON.stringify(formData.content));
           value={formData.banerImage}
         //   onChange={(e) => setFormData({ ...formData, banerImage: e.target.value })}
        onChange={handleFileChange}
+       required
         />
         <input
           type="file"
@@ -106,6 +116,8 @@ data.append('content',JSON.stringify(formData.content));
 
         {formData.content.map((block, cIndex) => (
           <div key={cIndex} className="border p-4 rounded bg-gray-50 space-y-4">
+           
+           <h1>Title</h1>
             <input
               type="text"
               placeholder="Type (required)"
@@ -133,6 +145,7 @@ data.append('content',JSON.stringify(formData.content));
                   className="w-full border p-2 rounded"
                   value={item}
                   onChange={(e) => handleItemChange(cIndex, iIndex, e.target.value)}
+               required
                 />
               ))}
               <button

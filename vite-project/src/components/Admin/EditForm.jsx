@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 const EditForm = () => {
   const { id } = useParams();
@@ -85,9 +86,11 @@ const EditForm = () => {
         }
       );
       setMessage(res.data.message || "Product updated successfully");
+      toast.success('product edit successfully!');
       navigate('/mildStainless'); // optional: redirect after save
     } catch (err) {
       setMessage(err.response?.data?.message || "Error updating product");
+      toast.error('Edit failed. Please try again.');
     }
   };
 
@@ -140,7 +143,7 @@ const EditForm = () => {
   <div className="mb-2">
     <p className="text-sm text-gray-500">Current Image:</p>
     <img
-      src={`http://localhost:8000${existingImage}`}
+      src={`${BASE_URL}${existingImage}`}
       alt="Existing Product"
       className="w-32 h-auto border rounded"
     />

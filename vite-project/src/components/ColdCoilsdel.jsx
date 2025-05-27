@@ -9,6 +9,7 @@ import { Hotrolledinfo } from "./Hotrolledinfo";
 import useFetchProducts from "../hooks/useFetchProducts";
 import DeleteButton from "./Admin/DeleteButton";
 import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BACKEND_LIVE;
 const ColdCoilsdel = () => {
 
 const [selectedThickness,setSelectedThickness]=useState(null);
@@ -38,7 +39,7 @@ const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
 const handleDelete=async()=>{
   try{
-await axios.delete(`http://localhost:8000/api/admin/product/deleteProduct/${id}`);
+await axios.delete(`${BASE_URL}/api/admin/product/deleteProduct/${id}`);
 navigate('/mildStainless')
 }
 catch (err) {

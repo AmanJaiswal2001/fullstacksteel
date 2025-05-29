@@ -71,7 +71,7 @@ const AllBlog = () => {
       </div>
 
       {/* Blog Cards */}
-      <div className="grid grid-cols-2 mb-10 gap-10 h-full">
+      <div className="grid sm:grid-cols-2 grid-cols-1 mb-10 gap-10 h-full">
         {filteredBlogs.map((card, index) => (
           <Link
             to={`/blog/${card._id}`}

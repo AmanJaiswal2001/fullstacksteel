@@ -55,7 +55,7 @@ const Footer = () => {
         <nav className='flex flex-col sm:w-1/4 gap-3'>
           <h3 className="text-lg text-white font-semibold">Sonatek</h3>
           <Link to="/about" className="text-white hover:underline font-light text-sm">About us</Link>
-          <Link to="#" className="text-white hover:underline font-light text-sm">Blogs</Link>
+          <Link to="/allblogs" className="text-white hover:underline font-light text-sm">Blogs</Link>
           {/* <Link to="#" className="text-white hover:underline font-light text-sm">Sitemap</Link> */}
           {/* <Link to="#" className="text-white hover:underline font-light text-sm">Sonatek</Link> */}
         </nav>

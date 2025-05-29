@@ -148,6 +148,8 @@ export const MobileSidebar = () => {
 
           <li><Link to="/about" onClick={closeSidebar}>About</Link></li>
           <li><Link to="/contact" onClick={closeSidebar}>Contact</Link></li>
+          <li><Link className="font-medium  font-poppins" to="/allblogs">Blog</Link></li>
+    
         </ul>
 
         <div className="relative">

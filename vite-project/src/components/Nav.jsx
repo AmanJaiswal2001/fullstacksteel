@@ -54,6 +54,7 @@ const Nav = () => {
       />
       <Link className="font-medium  font-poppins" to="/about">About</Link>
       <Link className="font-medium  font-poppins" to="/contact">Contact</Link>
+      <Link className="font-medium  font-poppins" to="/allblogs">Blog</Link>
     </div>
 
     {/* Connect With Us */}

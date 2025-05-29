@@ -55,7 +55,7 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
 {
         blog.content.map((item)=>(
 <div>
-<p className='text-5xl font-poppins text-white font-bold px-20   '>{item.type.split(' ')
+<p className='sm:text-5xl font-poppins text-white font-bold sm:px-20 px-5 text-xl   '>{item.type.split(' ')
     .slice(0, 30).join(' ') + '...'}</p>
 </div>
         ))
@@ -85,9 +85,9 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
 )}
 
 
-<div className={`flex mb-20 gap-10 w-full  px-20 ${!blog.sideImage ? 'justify-center' : ''}`}>
+<div className={`sm:flex sm:flex-row flex-col-reverse flex  mb-20 gap-10 w-full px-5 sm:px-20 ${!blog.sideImage ? 'justify-center' : ''}`}>
 
-<div className={`flex flex-col  pt-10  ${!blog.sideImage?'w-full':'w-1/2'}`}>
+<div className={`flex flex-col  sm:pt-10  ${!blog.sideImage?'w-full':'sm:w-1/2 w-full'}`}>
 
 
 {blog.content?.map((block, index) => {
@@ -121,7 +121,7 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
       }
 </div>
 
-<motion.div className='w-1/2  whileHover={{ scale: 1.2 }}
+<motion.div className='sm:w-1/2  whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}'>
 {blog.sideImage && (
         <img

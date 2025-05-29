@@ -49,16 +49,19 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
         className="w-full h-[500px] object-cover rounded-md mb-6"
       />
     
-<div className='absolute bottom-10 '>
+<div className='absolute bottom-10 left-0 w-full '>
+<div className='bg-black/60  py-5 rounded-md w-full '>
+  
 {
         blog.content.map((item)=>(
 <div>
-<li className='text-5xl font-poppins text-white font-bold px-20  '>{item.type}</li>
+<p className='text-5xl font-poppins text-white font-bold px-20   '>{item.type.split(' ')
+    .slice(0, 30).join(' ') + '...'}</p>
 </div>
         ))
       }
 </div>
-   
+   </div>
     
      </div>
     
@@ -82,9 +85,9 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
 )}
 
 
-<div className='flex mb-20 w-full px-20 '>
+<div className={`flex mb-20 gap-10 w-full  px-20 ${!blog.sideImage ? 'justify-center' : ''}`}>
 
-<div className='flex flex-col pt-10 w-1/2'>
+<div className={`flex flex-col  pt-10  ${!blog.sideImage?'w-full':'w-1/2'}`}>
 
 
 {blog.content?.map((block, index) => {
@@ -93,7 +96,7 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
         return (
           <div
              key={index}
-             className="mb-4 px-2 text-lg font-poppins  text-base text-gray-800  leading-relaxed
+             className="mb-4 px-2 w-full  text-lg font-poppins  text-base text-gray-800  leading-relaxed
         [&_h1]:font-bold [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base [&_h5]:text-base [&_h6]:text-base
          [&_h2]:font-normal [&_h3]:font-normal [&_h4]:font-normal [&_h5]:font-normal [&_h6]:font-normal
         [&_p]:text-base [&_p]:mb-2
@@ -128,7 +131,7 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
               : `${BASE_URL}/uploads/${blog.sideImage}`
           }
           alt="Side"
-          className="w-full h-full object-cover rounded mt-10 transition-transform duration-500 ease-in-out hover:scale-110"
+          className="w-full h-96 object-cover rounded mt-10 transition-transform duration-500 ease-in-out hover:scale-110"
         />
       )}
 </motion.div>

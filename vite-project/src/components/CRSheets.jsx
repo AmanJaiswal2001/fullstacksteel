@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import {cardData} from "../components/data/coldrollcoilshhet"
 import CardSheet from './CardSheet';
 import { Link } from 'react-router-dom';
+import useFetchProducts from '../hooks/useFetchProducts';
 const contentData = {
   title: 'Cold Rolled (CR) Sheets',
   description:
@@ -97,6 +98,13 @@ const CRSheets = () => {
     }
   };
 
+  const {products,loading,error}=useFetchProducts();
+
+  const coldSheet = products.filter((p) => {
+    // console.log("Checking product:", p);
+    return   p.type.toLowerCase().includes("sheet") && // matches 'hotrolledcoil', 'coldcoil', etc.
+    p.name.toLowerCase().includes("cold")
+  });
   return (
     <div className="w-full h-full">
       <div
@@ -396,7 +404,8 @@ const CRSheets = () => {
           width: '100%',
           flexWrap: 'nowrap',
         }}  >
-            {cardData.map((item, index) => (
+            {coldSheet
+            .map((item, index) => (
               <div 
                  key={index}
                  className={`flex-shrink-0 sm:px-2 mx-auto   flex justify-center sm:mx-0 mt-5 snap-start`}
@@ -405,7 +414,7 @@ const CRSheets = () => {
               minWidth: '15rem', // mobile scroll width
             }} >
                <div className="p-1 w-72  ">
-                <Link  className="block " key={index} to={`/product/${index}`}>
+                <Link  className="block " key={index} to={`/product/${item._id||index}`}>
                 <CardSheet {...item} />
                 </Link>
                 </div>

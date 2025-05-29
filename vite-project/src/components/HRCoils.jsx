@@ -4,6 +4,7 @@ import cardData from "../components/data/hotrollcoils"
 import CardSheet from './CardSheet';
 import { Link } from 'react-router-dom';
 import Card from './Card';
+import useFetchProducts from '../hooks/useFetchProducts';
 
 
 const contentData = {
@@ -52,6 +53,7 @@ applications: [
   };
 
 
+
 const HRCoils = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, margin: '-10px' });
@@ -94,6 +96,15 @@ const HRCoils = () => {
     }
   };
 
+
+  
+const {products,loading,error}=useFetchProducts();
+
+const hotCoils = products.filter((p) => {
+  // console.log("Checking product:", p);
+  return   p.type.toLowerCase().includes("coil") && // matches 'hotrolledcoil', 'coldcoil', etc.
+  p.name.toLowerCase().includes("hot")
+});
 
   return (
     <div className="w-full h-full">
@@ -380,7 +391,7 @@ const HRCoils = () => {
           flexWrap: 'nowrap',
         }}
       >
-            {cardData.map((item, index) => (
+            {hotCoils.map((item, index) => (
               <div 
                 key={index} 
                 className={`flex-shrink-0 sm:px-2 mx-auto   flex justify-center sm:mx-0 mt-5 snap-start`}
@@ -389,7 +400,7 @@ const HRCoils = () => {
               minWidth: '15rem', // mobile scroll width
             }}>
                <div className="p-1  w-72 ">
-                <Link  className="block " key={index} to={`/product/${index}`}>
+                <Link  className="block " key={index} to={`/product/${item._id||index}`}>
                 <Card {...item} />
                 </Link>
                 </div>

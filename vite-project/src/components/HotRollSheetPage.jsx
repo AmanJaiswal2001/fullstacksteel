@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import cardData from "../components/data/hotrolledcarddarta"
 import CardSheet from './CardSheet';
 import { Link } from 'react-router-dom';
+import useFetchProducts from '../hooks/useFetchProducts';
 
 const contentData = {
   title: 'Hot Rolled (HR) Sheets',
@@ -86,6 +87,16 @@ const HotRollSheetPage = () => {
       setCurrentIndex(prevState => prevState - 1);
     }
   };
+
+
+
+const {products,loading,error}=useFetchProducts();
+
+const HotSheet = products.filter((p) => {
+  // console.log("Checking product:", p);
+  return   p.type.toLowerCase().includes("sheet") && // matches 'hotrolledcoil', 'coldcoil', etc.
+  p.name.toLowerCase().includes("hot")
+});
 
   return (
     <div className="w-full h-full ">
@@ -344,7 +355,7 @@ const HotRollSheetPage = () => {
           flexWrap: 'nowrap',
         }}
       >
-        {cardData.map((item, index) => (
+        {HotSheet.map((item, index) => (
           <div
             key={index}
             className={`flex-shrink-0 sm:px-2 mx-auto  flex justify-center sm:mx-0 mt-5 snap-start`}
@@ -354,7 +365,7 @@ const HotRollSheetPage = () => {
             }}
           >
             <div className="p-1 w-72 ">
-              <Link to={`/product/${index}`}>
+              <Link to={`/product/${item._id||index}`}>
                 <CardSheet {...item} />
               </Link>
             </div>

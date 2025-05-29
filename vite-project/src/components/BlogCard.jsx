@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useFetchBlog from '../hooks/useFetchBlog';
+import Button from './Button';
 const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 export const BlogCard = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -10,6 +11,8 @@ export const BlogCard = () => {
     setActiveIndex(index);
   };
 
+
+  const navigate=useNavigate();
   useEffect(() => {
     console.log('Fetched Blog Data:', blog);
   }, [blog]);
@@ -30,7 +33,7 @@ export const BlogCard = () => {
       {error && <p className="text-center text-red-500 mt-10">Failed to load blogs</p>}
 
       <div className="hidden sm:flex gap-4 h-96">
-        {blog.map((card, index) => (
+        {blog.slice(0,3).map((card, index) => (
           <Link
             to={`/blog/${card._id}`}
             key={card._id}
@@ -60,7 +63,9 @@ export const BlogCard = () => {
                   activeIndex === index ? 'translate-y-0' : 'translate-y-16'
                 }`}
               >
-                {card.content[0]?.type}
+                {card.content[0]?.type  .split(' ')
+    .slice(0, 10)
+    .join(' ') + '...'}
               </h2>
               <div
                 className={`transition-all duration-700 overflow-hidden ${
@@ -68,7 +73,10 @@ export const BlogCard = () => {
                 }`}
               >
                 <p className="text-white text-opacity-90">
-                  {getTextFromHTML(card.content[0]?.text)}
+                  {getTextFromHTML(card.content[0]?.text)
+                    .split(' ')
+    .slice(0, 10)
+    .join(' ') + '...'}
                 </p>
                 <span className="inline-block mt-4 font-bold text-orange-600 transition-colors">
                   Read More →
@@ -79,9 +87,11 @@ export const BlogCard = () => {
         ))}
       </div>
 
+
+
       {/* Mobile View */}
       <div className="sm:hidden space-y-4">
-        {blog.map((card, index) => (
+        {blog.slice(0,3).map((card, index) => (
           <Link key={card._id} to={`/blog/${card._id}`} className="block">
             <div className="relative h-64 overflow-hidden rounded-lg transition-all duration-700 cursor-pointer">
               <img
@@ -92,9 +102,13 @@ export const BlogCard = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-700/40 to-transparent transition-opacity duration-500" />
               <div className="absolute inset-x-0 bottom-0 text-white p-4">
-                <h2 className="text-xl font-bold mb-2">{card.content[0]?.type}</h2>
+                <h2 className="text-xl font-bold mb-2">{card.content[0]?.type.split(' ')
+    .slice(0, 10)
+    .join(' ') + '...'}</h2>
                 <p className="text-sm text-white text-opacity-90">
-                  {getTextFromHTML(card.content[0]?.text)}
+                  {getTextFromHTML(card.content[0]?.text).split(' ')
+    .slice(0, 10)
+    .join(' ') + '...'}
                 </p>
                 <span className="inline-block mt-2 text-sm font-bold text-orange-600">
                   Read More →
@@ -104,6 +118,16 @@ export const BlogCard = () => {
           </Link>
         ))}
       </div>
+
+      <div className='mt-20  mb-5 w-full flex justify-center'>
+<Button 
+
+onClick={() => navigate("/allblogs")}
+ buttonName="View all"
+ rounded="rounded-lg"
+  text="text-[#2241a6]"  bgColor="bg-white hover:bg-[#cae0fe]" border="border-2 border-[#2241a6]"
+  width="w-60 " />
+</div>
     </div>
   );
 };

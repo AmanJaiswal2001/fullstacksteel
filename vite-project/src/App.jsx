@@ -7,6 +7,7 @@ import EditForm from "./components/Admin/EditForm";
 import AddBlog from "./components/Admin/AddBlog";
 import EditBlog from "./components/Admin/EditBlog";
 import { Toaster } from 'react-hot-toast';
+import AllBlog from "./components/AllBlog";
 const Nav = lazy(() => import('./components/Nav'));
 const Footer = lazy(() => import('./components/Footer'));
 const PhoneCall = lazy(() => import('./components/PhoneCall'));
@@ -96,7 +97,7 @@ const appRouter = createBrowserRouter([
 // {path:"/addBlog/:id",element:<Blog2/>},
 // {path:"/addBlog/:id",element:<Blog3/>},
 {path:"/editblog/:id",element:<EditBlog/>},
-      
+{path:"/allblogs",element:<AllBlog/>},   
     ],
   },
 ]);

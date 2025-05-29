@@ -49,9 +49,16 @@ app.use("/api",contactRoutes);
 app.use('/api/admin',blogRoutes);
 
 app.use(express.static(path.join(__dirname, 'dist')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//     const filePath = path.join(__dirname, 'dist', 'index.html');
+//     res.sendFile(filePath, (err) => {
+//       if (err) {
+//         console.error("Error while sending index.html:", err);
+//         res.status(500).send('Server Error');
+//       }
+//     });
+//   });
+  
 
 
 

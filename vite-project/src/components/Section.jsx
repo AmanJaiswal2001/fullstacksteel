@@ -15,7 +15,7 @@ const Section = () => {
   const navigate = useNavigate();
 
   // Get admin status
-  const isAdmin = localStorage.getItem('isAdmin') === 'true';
+  const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
 
 
   const { products, loading, error } = useFetchProducts();

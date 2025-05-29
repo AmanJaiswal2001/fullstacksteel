@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from "axios";
 const  BASE_URL=import.meta.env.VITE_BACKEND_LIVE
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -25,13 +26,15 @@ const AddProduct = () => {
     'coldrolledcoil',
   ];
 
+const navigate=useNavigate();
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
-
+  const fileInputRef = useRef();
   const handleFileChange = (e) => {
     setImageFile(e.target.files[0]);
   };
@@ -57,14 +60,15 @@ const AddProduct = () => {
       });
       setMessage(res.data.message);
       toast.success("product added successfully",res.data);
+      navigate('/mildStainless')
+      
     } catch (err) {
      let errorMsg = err.response?.data?.error ||  // ← this gets your validation message
     err.response?.data?.message ||
     err.message ||
     "Something went wrong";
       toast.error(`Error uploading:${errorMsg}`);
-      setMessage(err.response?.data?.message || "Error uploading");
-    }
+      setMessage(errorMsg); }
   };
 
 
@@ -101,15 +105,27 @@ const AddProduct = () => {
         </div>
 
         <div>
-  <label className="block">Image</label>
-  <input
-    type="file"
-    name="image"
-    // file inputs **should NOT** use value prop
-    onChange={handleFileChange}
-    className="w-full border p-2 rounded"
-    accept="image/*"
-  />
+        <label className="block mb-1">Image (optional)</label>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current.click()}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Upload  Image
+          </button>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          {imageFile && (
+            <p className="mt-2 text-sm text-gray-600">
+              Selected: <span className="font-medium">{imageFile.name}</span>
+            </p>
+          )}
 </div>
 
         <div>

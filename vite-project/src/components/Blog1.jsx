@@ -17,7 +17,7 @@ const Blog1 = () => {
     return div.textContent || div.innerText || '';
   };
   const navigate=useNavigate();
-  const isAdmin = localStorage.getItem('isAdmin') === 'true';
+  const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
      
 
 const handleDelete=async()=>{
@@ -50,7 +50,7 @@ await axios.delete(`${BASE_URL}/api/admin/deleteBlog/${id}`);
       />
     
 <div className='absolute bottom-10 left-0 w-full '>
-<div className='bg-black/60  py-5 rounded-md w-full '>
+<div className='bg-black/60  py-5 w-full '>
   
 {
         blog.content.map((item)=>(

@@ -22,9 +22,9 @@ const AdminLogin = () => {
   
       // Store admin flag in localStorage
       if (res.data?.data?.isAdmin) {
-        localStorage.setItem("isAdmin", "true");
+        sessionStorage.setItem("isAdmin", "true"); // <-- changed to sessionStorage
       } else {
-        localStorage.setItem("isAdmin", "false");
+        sessionStorage.setItem("isAdmin", "false");
       }
   
       // Navigate to dashboard

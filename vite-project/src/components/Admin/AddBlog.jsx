@@ -159,7 +159,7 @@ const AddBlog = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block font-semibold">Items</label>
+              <label className="block font-semibold">Tags</label>
               {block.items.map((item, iIndex) => (
                 <input
                   key={iIndex}

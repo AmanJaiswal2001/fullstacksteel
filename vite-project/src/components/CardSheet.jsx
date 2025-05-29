@@ -6,7 +6,7 @@ const CardSheet = ({
   return (
     <div
       data-theme="light"
-      className={`card relative bg-base-100   w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] lg:max-w-[340px] xl:max-w-[360px] h-[450px] rounded-lg overflow-hidden border border-gray-200 shadow-sm transition-all duration-300 ease-in-out transform hover:shadow-lg hover:-translate-y-1 `}
+      className={`card relative bg-base-100   w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] lg:max-w-[340px] xl:max-w-[360px] h-[400px] rounded-lg overflow-hidden border border-gray-200 shadow-sm transition-all duration-300 ease-in-out transform hover:shadow-lg hover:-translate-y-1 `}
       >
       <figure className="w-full">
         <img className="w-full h-44 object-cover" src={`${BASE_URL}${image}`} alt="card" />

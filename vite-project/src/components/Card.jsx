@@ -30,14 +30,14 @@ const navigate=useNavigate();
   return (
     <div
       data-theme="light"
-      className={`card relative bg-base-100   w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] lg:max-w-[340px] xl:max-w-[360px] h-[450px] rounded-lg overflow-hidden border border-gray-200 shadow-sm transition-all duration-300 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${transformClass}`}
+      className={`card relative bg-base-100   w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] lg:max-w-[340px] xl:max-w-[360px] h-[400px] rounded-lg overflow-hidden border border-gray-200 shadow-sm transition-all duration-300 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${transformClass}`}
     >
       <figure className="w-full h-44">
         <img className="w-full h-full object-cover" src={`${BASE_URL}${image}`} alt="card" />
       </figure>
 
       <div className="card-body p-2">
-        <h2 className="mt-2 font-poppins font-medium text-[1rem] h-12">{name}</h2>
+        <h2 className="mt-2 font-poppins font-medium text-[1rem] ">{name}</h2>
 
         {/* <div className="flex gap-2 text-xs text-[#70737a]">
           <span className="font-normal">Brand:</span>

@@ -2,6 +2,7 @@
 
 const dotenv = require('dotenv');
 const express = require('express');
+const path = require('path');
 // const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -15,7 +16,7 @@ const contactRoutes=require("./src/routes/contactRoutes.js");
 const blogRoutes=require('./src/routes/blogRoutes.js');
 const allowedOrigins = [
     "http://localhost:5173",
-    "http://65.108.1.122:8000/"
+    "http://65.108.1.122:8000"
 ]
 dotenv.config();
 connectDB();
@@ -47,7 +48,10 @@ app.use("/uploads", express.static("uploads")); // Serve uploaded files
 app.use("/api",contactRoutes);
 app.use('/api/admin',blogRoutes);
 
-
+app.use(express.static(path.join(__dirname, 'dist')));
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// });
 
 
 

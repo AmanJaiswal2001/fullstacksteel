@@ -73,7 +73,7 @@ const Footer = () => {
 </div>
 </div>
 
-        <nav className='flex flex-col sm:w-1/2 gap-3 px-5  border-l-1 sm:px-10 border-l-gray-50'>
+        <nav className='flex flex-col sm:w-1/2 gap-3 px-5  sm:border-l-1 sm:px-10 sm:border-l-gray-50'>
           <h3 className="text-lg text-white font-semibold">Support</h3>
           <a href="tel:+919891998846" className="flex gap-2 items-center">
             <svg className='text-white' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

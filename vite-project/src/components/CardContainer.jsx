@@ -81,7 +81,7 @@ return card.type?.toLowerCase().includes(type);
           </button>
         )}
          
-<div className='mt-20  mb-5 w-full flex justify-center'>
+<div className='mt-20  border-2 cursor-pointer bg-[#12396d] border-[#2241a6] rounded-lg items-center m-auto w-[90%]  sm:w-[30%] flex justify-center'>
 <Button
 
 onClick={() => navigate("/hotRolled/coils")}

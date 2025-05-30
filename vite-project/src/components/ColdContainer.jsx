@@ -54,6 +54,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const ColdContainer = ({data = [],type}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [slideDirection, setSlideDirection] = useState("");
     const visibleCards = 3; 
   
 const navigate=useNavigate();
@@ -79,12 +80,14 @@ const navigate=useNavigate();
 
     const nextSlide = () => {
         if (currentIndex + visibleCards < filteredCards.length) {
+          setSlideDirection("right");
           setCurrentIndex(currentIndex + 1);
         }
       };
     
       const prevSlide = () => {
         if (currentIndex > 0) {
+          setSlideDirection("left");
           setCurrentIndex(currentIndex - 1);
         }
       };
@@ -99,17 +102,23 @@ const navigate=useNavigate();
           ))}
          </div>
          
-         
-         <button
-           className={`absolute -left-10 h-9 w-9 top-[40%] hidden bg-[#e6f0ff] lg:flex items-center justify-center bg-opacity-50 cursor-pointer text-[#2241a6] p-1 rounded-lg hover:bg-[#d7e7ff] ${currentIndex===0?"hidden":"block"}`}
-           onClick={prevSlide}
+         {
+          filteredCards.length>visibleCards&&(
+            <button
+            className={`absolute -left-10 h-9 w-9 top-[40%] hidden bg-[#e6f0ff] lg:flex items-center justify-center bg-opacity-50 cursor-pointer text-[#2241a6] p-1 rounded-lg hover:bg-[#d7e7ff] ${currentIndex===0?"hidden":"block"}`}
+            onClick={prevSlide}
             disabled={currentIndex === 0}
           >
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m3.55 12l7.35 7.35q.375.375.363.875t-.388.875t-.875.375t-.875-.375l-7.7-7.675q-.3-.3-.45-.675T.825 12t.15-.75t.45-.675l7.7-7.7q.375-.375.888-.363t.887.388t.375.875t-.375.875z"/></svg>
+             <svg className='text-center font-normal' xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m3.55 12l7.35 7.35q.375.375.363.875t-.388.875t-.875.375t-.875-.375l-7.7-7.675q-.3-.3-.45-.675T.825 12t.15-.75t.45-.675l7.7-7.7q.375-.375.888-.363t.887.388t.375.875t-.375.875z"/></svg>
     
           </button>
     
+          )
+         }
+    
+    
           {/* Next Button */}
+          {filteredCards.length>visibleCards&&(
           <button
             className={`absolute -right-10  h-9 w-9 top-[40%] hidden bg-[#e6f0ff] lg:flex items-center justify-center bg-opacity-50 cursor-pointer text-[#2241a6] p-1 rounded-lg hover:bg-[#d7e7ff] ${currentIndex + visibleCards >= filteredCards.length ?"hidden":"block"}`}
             onClick={nextSlide}
@@ -119,7 +128,8 @@ const navigate=useNavigate();
            
         
           </button>
-          <div className='lg:mt-20 mt-10 mb-5 flex justify-center'>
+        )} 
+          <div className='lg:mt-20 cursor-pointer mt-10 mb-5 flex justify-center bg-[#12396d] border-[#2241a6] rounded-lg items-center m-auto w-[90%]  sm:w-[30%]'>
 <Button
   onClick={()=>navigate("/coldRolled/coils")}
  buttonName="View all"
